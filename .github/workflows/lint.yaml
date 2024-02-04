@@ -1,5 +1,5 @@
 ---
-name: Lint
+name: "Lint"
 
 on: # yamllint disable-line rule:truthy
   workflow_dispatch:
@@ -14,26 +14,25 @@ concurrency:
 jobs:
   build:
     name: MegaLinter
-    runs-on: arc-runner-set-home-cluster
-    # runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Generate Token
-        uses: tibdex/github-app-token@v2
-        id: generate-token
+        uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          app_id: ${{ secrets.TROSVALD_APP_ID }}
-          private_key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
+          app_id: "${{ secrets.TROSVALD_APP_ID }}"
+          private_key: "${{ secrets.TROSVALD_APP_PRIVATE_KEY }}"
 
       - name: Checkout
-        uses: actions/checkout@v4 # v4
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: "${{ steps.generate-token.outputs.token }}"
+          token: "${{ steps.app-token.outputs.token }}"
 
       - name: MegaLinter
         uses: oxsecurity/megalinter/flavors/terraform@v7
         env:
-          GITHUB_TOKEN: "${{ steps.generate-token.outputs.token }}"
+          GITHUB_TOKEN: "${{ steps.app-token.outputs.token }}"
           PRINT_ALPACA: false
           VALIDATE_ALL_CODEBASE: ${{ github.event_name == 'workflow_dispatch' }}
           ENABLE_LINTERS: |-

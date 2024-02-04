@@ -5,24 +5,20 @@ on:
   workflow_dispatch:
     inputs:
       dryRun:
-        description: "Dry-Run"
-        default: false
+        description: Dry-Run
+        default: "false"
         required: false
-        type: boolean
       logLevel:
-        description: "Log-Level"
-        default: "debug"
+        description: Log-Level
+        default: debug
         required: false
   schedule:
     - cron: "0 * * * *"
   push:
-    branches:
-      - main
+    branches: ["main"]
     paths:
-      - ".github/renovate.json5"
-      - ".github/renovate/**.json"
-      - ".github/renovate/**.json5"
-      - ".github/workflows/renovate.yaml"
+      - .github/renovate.json5
+      - .github/renovate/**.json5
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.ref }}
@@ -41,22 +37,21 @@ jobs:
   renovate:
     name: Renovate
     runs-on: ubuntu-latest
-    # runs-on: arc-runner-set-k8s-cluster
     steps:
       - name: Generate Token
-        uses: tibdex/github-app-token@v2
-        id: generate-token
+        uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          app_id: ${{ secrets.TROSVALD_APP_ID }}
-          private_key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
+          app_id: "${{ secrets.TROSVALD_APP_ID }}"
+          private_key: "${{ secrets.TROSVALD_APP_PRIVATE_KEY }}"
 
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          token: "${{ steps.generate-token.outputs.token }}"
+          token: "${{ steps.app-token.outputs.token }}"
 
       - name: Renovate
         uses: renovatebot/github-action@v40.0.2
         with:
           configurationFile: "${{ env.RENOVATE_CONFIG_FILE }}"
-          token: "${{ steps.generate-token.outputs.token }}"
+          token: "${{ steps.app-token.outputs.token }}"

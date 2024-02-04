@@ -2,14 +2,14 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "packageRules": [
     {
-      "description": "Separate PRs for talos cluster",
+      "description": "Separate PRs for production cluster",
       "matchFileNames": [
         "**/kubernetes/prod/**"
       ],
       "additionalBranchPrefix": "prod-"
     },
     {
-      "description": "Separate PRs for truenas cluster",
+      "description": "Separate PRs for infra cluster",
       "matchFileNames": [
         "**/kubernetes/infra/**"
       ],
