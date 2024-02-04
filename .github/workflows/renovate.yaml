@@ -1,5 +1,5 @@
 ---
-name: Schedule - Renovate
+name: Renovate
 
 on:
   workflow_dispatch:
@@ -40,7 +40,8 @@ env:
 jobs:
   renovate:
     name: Renovate
-    runs-on: arc-runner-set-home-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     steps:
       - name: Generate Token
         uses: tibdex/github-app-token@v2
