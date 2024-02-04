@@ -1,0 +1,54 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: cert-manager
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: cert-manager
+      version: v1.14.1
+      sourceRef:
+        kind: HelmRepository
+        name: jetstack
+        namespace: flux-system
+      interval: 30m
+
+  install:
+    crds: CreateReplace
+  upgrade:
+    crds: CreateReplace
+
+  values:
+    installCRDs: true
+
+    cainjector:
+      enabled: true
+      podLabels:
+        egress.home.arpa/apiserver: allow
+        egress.home.arpa/kubedns: allow # TODO: Remove when clusterNetworkPolicy is in place
+
+    webhook:
+      enabled: true
+      podLabels:
+        egress.home.arpa/apiserver: allow
+        egress.home.arpa/kubedns: allow # TODO: Remove when clusterNetworkPolicy is in place
+
+    extraArgs:
+      - --dns01-recursive-nameservers=203.142.82.222:53,203.142.84.222:53
+      - --dns01-recursive-nameservers-only
+      - --enable-certificate-owner-ref
+
+    replicaCount: 1
+
+    podDnsPolicy: "None"
+    podDnsConfig:
+      nameservers:
+        - "203.142.82.222"
+        - "203.142.84.222"
+    podLabels:
+      egress.home.arpa/apiserver: allow
+      egress.home.arpa/world: allow
+      egress.home.arpa/kubedns: allow # TODO: Remove when clusterNetworkPolicy is in place

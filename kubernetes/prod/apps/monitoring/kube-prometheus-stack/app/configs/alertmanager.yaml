@@ -1,0 +1,93 @@
+---
+global:
+  resolve_timeout: 5m
+
+
+route:
+  group_by: ["alertname", "job"]
+  group_interval: 10m
+  group_wait: 1m
+  repeat_interval: 12h
+  routes:
+    - receiver: "null"
+      matchers:
+        - alertname =~ "InfoInhibitor"
+    # - receiver: telegram
+    #   continue: true
+    #   matchers:
+    #     - severity = "critical"
+    - receiver: slack
+      continue: true
+      matchers:
+        - severity = "critical"
+
+inhibit_rules:
+  - equal: ["alertname", "namespace"]
+    source_matchers:
+      - severity = "critical"
+    target_matchers:
+      - severity = "warning"
+
+receivers:
+  - name: "null"
+  # - name: "telegram"
+  #   telegram_configs:
+  #     - bot_token: "{{ .telegram_bot_token }}"
+  #       chat_id: 776292398
+  #       parse_mode: "HTML"
+  #       message: |-
+  #         {{- range .Alerts }}
+  #           {{- if eq .Labels.severity "warning"}}
+  #             ⚠ <b>{{ .Labels.severity }}</b>
+  #           {{- else if ne .Labels.severity "" }}
+  #             <b>{{ .Labels.severity }}</b>
+  #           {{- else }}
+  #             <b>Severity:</b> <i>N/A</i>
+  #           {{- end }}
+  #           {{- if ne .Annotations.description "" }}
+  #             <b>Description:</b> <i>{{ .Annotations.description }}</i>
+  #           {{- else if ne .Annotations.summary "" }}
+  #             <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
+  #           {{- else if ne .Annotations.message "" }}
+  #             <b>Message:</b> <i>{{ .Annotations.message }}</i>
+  #           {{- else }}
+  #             <b>Description:</b> <i>N/A</i>
+  #           {{- end }}
+  #           {{- if gt (len .Labels.SortedPairs) 0 }}
+  #             <b>Details:</b>
+  #             {{- range .Labels.SortedPairs }}
+  #               • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
+  #             {{- end }}
+  #           {{- end }}
+  #         {{- end }}
+  - name: "slack"
+    slack_configs:
+      - channel: "{{ .slack_channel }}"
+        slack_api_url: "{{ .slack_hook }}"
+        send_resolved: true
+        icon_url: https://avatars3.githubusercontent.com/u/3380462
+        message: |-
+          {{- range .Alerts }}
+            {{- if eq .Labels.severity "warning"}}
+              ⚠ <b>{{ .Labels.severity }}</b>
+            {{- else if ne .Labels.severity "" }}
+              <b>{{ .Labels.severity }}</b>
+            {{- else }}
+              <b>Severity:</b> <i>N/A</i>
+            {{- end }}
+            {{- if ne .Annotations.description "" }}
+              <b>Description:</b> <i>{{ .Annotations.description }}</i>
+            {{- else if ne .Annotations.summary "" }}
+              <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
+            {{- else if ne .Annotations.message "" }}
+              <b>Message:</b> <i>{{ .Annotations.message }}</i>
+            {{- else }}
+              <b>Description:</b> <i>N/A</i>
+            {{- end }}
+            {{- if gt (len .Labels.SortedPairs) 0 }}
+              <b>Details:</b>
+              {{- range .Labels.SortedPairs }}
+                • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
+              {{- end }}
+            {{- end }}
+          {{- end }}

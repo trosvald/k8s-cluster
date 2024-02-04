@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: production
+  namespace: flux-system
+spec:
+  interval: 30m
+  ref:
+    branch: main
+  url: https://github.com/trosvald/k8s-cluster.git
+  ignore: |
+    # exclude all
+    /*
+    # include gitops dirs
+    !/infrastructure/terraform
+    !/kubernetes
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/kustomization-kustomize-v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: prod
+  namespace: flux-system
+spec:
+  interval: 30m
+  path: ./kubernetes/prod/flux
+  prune: true
+  wait: false
+  sourceRef:
+    kind: GitRepository
+    name: production
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  dependsOn:
+    - name: flux
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: cluster-settings
+        optional: false

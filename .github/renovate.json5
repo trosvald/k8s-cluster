@@ -1,0 +1,26 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "github>trosvald/renovate-config",
+    "github>trosvald/renovate-config:automerge-github-actions",
+    "local>trosvald/home-cluster//.github/renovate/allowedVersions.json5",
+    "local>trosvald/home-cluster//.github/renovate/autoMerge.json5",
+    "local>trosvald/home-cluster//.github/renovate/commitMessage.json5",
+    "local>trosvald/home-cluster//.github/renovate/disabledDatasources.json5",
+    "local>trosvald/home-cluster//.github/renovate/groups.json5",
+    "local>trosvald/home-cluster//.github/renovate/managers.json5",
+    "local>trosvald/home-cluster//.github/renovate/customDataSources.json5",
+    "local>trosvald/home-cluster//.github/renovate/customManagers.json5",
+    "local>trosvald/home-cluster//.github/renovate/labels.json5",
+  ],
+  ignoreDeps: [
+    "ghcr.io/fluxcd/helm-controller",
+    "ghcr.io/fluxcd/image-automation-controller",
+    "ghcr.io/fluxcd/image-reflector-controller",
+    "ghcr.io/fluxcd/kustomize-controller",
+    "ghcr.io/fluxcd/notification-controller",
+    "ghcr.io/fluxcd/source-controller",
+  ],
+  gitAuthor: "monosense-arc <647255+monosense-arc[bot]@users.noreply.github.com>",
+  ignorePaths: ["^.archive/**"],
+}

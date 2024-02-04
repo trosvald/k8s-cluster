@@ -1,0 +1,39 @@
+---
+alerting:
+  telegram:
+    token: $${GATUS_TELEGRAM_BOT_TOKEN}
+    id: $${GATUS_TELEGRAM_CHANNEL_ID}
+    default-alert:
+      description: healthcheck failed
+      send-on-resolved: true
+      failure-threshold: 3
+      success-threshold: 5
+
+connectivity:
+  checker:
+    target: 1.1.1.1:53
+    interval: 1m
+
+metrics: true
+
+storage:
+  type: postgres
+  path: postgres://$${POSTGRES_USER}:$${POSTGRES_PASS}@$${POSTGRES_HOST}:5432/$${POSTGRES_DB}?sslmode=disable
+  caching: true
+
+ui:
+  title: Status | Gatus
+  header: Status
+
+web:
+  port: 80
+
+endpoints:
+  - name: Uptimekuma
+    group: external
+    url: https://uptime.dpr.go.id
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: telegram

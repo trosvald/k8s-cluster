@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+helmCharts:
+  - name: kubelet-csr-approver
+    repo: https://postfinance.github.io/kubelet-csr-approver
+    version: 1.0.7
+    releaseName: kubelet-csr-approver
+    namespace: system-controllers
+    valuesFile: values.yaml
+
+transformers:
+  - transformers.yaml

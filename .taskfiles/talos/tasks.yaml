@@ -1,0 +1,162 @@
+---
+version: "3"
+
+vars:
+  DOMAIN: "monosense.io"
+  # renovate: datasource=github-releases depName=siderolabs/talos
+  TALOS_VERSION: "1.6.4"
+  # renovate: datasource=github-releases depName=siderolabs/kubelet
+  KUBERNETES_VERSION: "1.29.1"
+
+tasks:
+  generate:
+    internal: true
+    desc: Generate Talos machine configurations (task talos:generate)
+    dir: kubernetes/prod/talos
+    cmds:
+      - talhelper genconfig
+    sources:
+      - talconfig.yaml
+      - talenv.sops.yaml
+      - talenv.yaml
+      - talsecret.sops.yaml
+    generates:
+      - clusterconfig/*.yaml
+      - clusterconfig/talosconfig
+
+  wait_for_health:
+    internal: true
+    desc: Wait for services in cluster to be healthy
+    cmds:
+      # Ensure CloudNative-PG cluster has 3 ready instances
+      - kubectl -n database wait --for jsonpath='{.status.readyInstances}'='3' --timeout {{ .TIMEOUT | default "30s" }} cluster postgres
+
+  apply-insecure:
+    internal: true
+    desc: Apply Talos config to a node in maintenance mode
+    dir: kubernetes/prod/talos
+    cmds:
+      - task: generate
+      - talosctl apply-config -i -n {{ .IP }} -f clusterconfig/prod-{{ .NODE }}.{{ .DOMAIN }}.yaml
+
+  upgrade:
+    internal: false
+    desc: Upgrade a single node to Talos version {{ .TALOS_VERSION }} (task talos:upgrade NODE=k8s-m0 IP=172.16.11.10)
+    dir: kubernetes/prod/talos
+    status:
+      - talosctl version -n {{ .NODE }}.{{ .DOMAIN }} --short | grep 'Tag.*{{ .TALOS_VERSION }}'
+    cmds:
+      # - task: wait_for_health
+      #   vars: {TIMEOUT: 10m}
+      - task: apply
+        vars: {NODE: "{{ .NODE }}", CLI_ARGS: "-m no-reboot"}
+      - talosctl upgrade -n {{ .NODE }}.{{ .DOMAIN }} -m powercycle --image $(talhelper genurl installer -n {{ .IP }})
+
+  init:
+    desc: Init talosctl and grab kubeconfig (task talos:init)
+    cmds:
+      - task: generate
+      # - talosctl config merge kubernetes/prod/talos/clusterconfig/talosconfig
+      # - talosctl --talosconfig=kubernetes/prod/talos/clusterconfig/talosconfig kubeconfig -n prod.{{ .DOMAIN }} -f
+
+  reset:
+    desc: Reset cluster
+    dir: kubernetes/prod/talos
+    cmds:
+      - ./reset.sh
+
+  deploy-integrations:
+    internal: true
+    desc: Deploy Integrations
+    dir: kubernetes/prod/talos
+    cmds:
+      - ./deploy-integrations.sh
+
+  install:
+    desc: Install talos on uninitialized machines
+    dir: kubernetes/prod/talos
+    cmds:
+      - task: generate
+      - task: apply-insecure
+        vars: {IP: "172.16.11.10", NODE: "k8s-m0"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.11", NODE: "k8s-m1"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.12", NODE: "k8s-m2"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.13", NODE: "k8s-w0"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.14", NODE: "k8s-w1"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.15", NODE: "k8s-w2"}
+      - task: apply-insecure
+        vars: {IP: "172.16.11.16", NODE: "k8s-w3"}
+      - echo "Wait for install"
+      - sleep 360
+      - echo "Bootstrapping etcd"
+      - talosctl bootstrap -n prod.{{ .DOMAIN }}
+      - sleep 360
+      - talosctl -n prod.{{ .DOMAIN }} kubeconfig -f
+      - sleep 10
+      - kubectl certificate approve $(kubectl get csr --sort-by=.metadata.creationTimestamp | grep Pending | awk '{print $1}')
+      - task: deploy-integrations
+
+  apply:
+    desc: Apply Talos config to a specific node (task talos:apply NODE=k8s-control01)
+    dir: kubernetes/prod/talos
+    cmds:
+      - task: generate
+      - talosctl apply-config -n {{ .NODE }}.{{ .DOMAIN }} -f clusterconfig/prod-{{ .NODE }}.{{ .DOMAIN }}.yaml {{ .CLI_ARGS }}
+
+  apply:all:
+    desc: Apply Talos config to all nodes
+    dir: kubernetes/prod/talos
+    cmds:
+      - task: generate
+      - task: apply
+        vars: {NODE: k8s-m0}
+      - task: apply
+        vars: {NODE: k8s-m1}
+      - task: apply
+        vars: {NODE: k8s-m2}
+      - task: apply
+        vars: {NODE: k8s-w0}
+      - task: apply
+        vars: {NODE: k8s-w1}
+      - task: apply
+        vars: {NODE: k8s-w3}
+
+  upgrade:all:
+    desc: Upgrade all nodes to Talos version {{ .TALOS_VERSION }} (task talos:upgrade:all)
+    dir: kubernetes/prod/talos
+    cmds:
+      - task: generate
+      # control-plane
+      - task: upgrade
+        vars: {NODE: k8s-m0, IP: "172.16.11.10"}
+      - task: upgrade
+        vars: {NODE: k8s-m1, IP: "172.16.11.11"}
+      - task: upgrade
+        vars: {NODE: k8s-m2, IP: "172.16.11.12"}
+      # workers
+      - task: upgrade
+        vars: {NODE: k8s-w0, IP: "172.16.11.13"}
+      - task: upgrade
+        vars: {NODE: k8s-w1, IP: "172.16.11.14"}
+      - task: upgrade
+        vars: {NODE: k8s-w2, IP: "172.16.11.15"}
+      - task: upgrade
+        vars: {NODE: k8s-w3, IP: "172.16.11.16"}
+
+  upgrade:k8s:
+    dir: kubernetes/prod/talos
+    desc: Upgrade Kubernetes to {{ .KUBERNETES_VERSION }} (task talos:upgrade:k8s NODE=k8s-m0)
+    cmds:
+      - task: generate
+      - talosctl -n {{ .NODE }}.{{ .DOMAIN }} upgrade-k8s --to {{ .KUBERNETES_VERSION }}
+
+  dashboard:
+    desc: Show talos dashboard for node (task talos:dashboard NODE=k8s-m0)
+    cmds:
+      - task: generate
+      - talosctl -n {{ .NODE }}.{{ .DOMAIN }} dashboard

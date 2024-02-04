@@ -1,0 +1,33 @@
+---
+apiVersion: external-secrets.io/v1beta1
+kind: ClusterExternalSecret
+metadata:
+  name: pgo-s3-creds
+spec:
+  externalSecretName: pgo-s3-creds
+
+  namespaceSelector:
+    matchLabels:
+      pgo-enabled-monosense.io: "true"
+
+  refreshTime: "1m"
+
+  externalSecretSpec:
+    secretStoreRef:
+      kind: ClusterSecretStore
+      name: onepassword-connect
+
+    target:
+      name: pgo-s3-creds
+      creationPolicy: Owner
+      template:
+        engineVersion: v2
+        data:
+          s3.conf: |
+            [global]
+            repo1-s3-key=crunchydata
+            repo1-s3-key-secret={{ .crunchy_s3_secret_key }}
+
+    dataFrom:
+      - extract:
+          key: crunchydata

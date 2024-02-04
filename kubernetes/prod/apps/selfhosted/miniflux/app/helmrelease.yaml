@@ -1,0 +1,97 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/helmrelease-helm-v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: miniflux
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 2.5.0
+      interval: 30m
+      sourceRef:
+        kind: HelmRepository
+        name: bjw-s
+        namespace: flux-system
+
+  values:
+    controllers:
+      main:
+        strategy: RollingUpdate
+        annotations:
+          reloader.stakater.com/auto: "true"
+
+        pod:
+          securityContext:
+            runAsUser: 568
+            runAsGroup: 568
+
+        containers:
+          main:
+            image:
+              repository: ghcr.io/miniflux/miniflux
+              tag: 2.0.51
+            env:
+              BASE_URL: https://${HOSTNAME}
+              CREATE_ADMIN: "1"
+              DATABASE_URL:
+                valueFrom:
+                  secretKeyRef:
+                    name: "${APP}-pguser-${DB_USER}"
+                    key: uri
+              DEBUG: "1"
+              LOG_DATE_TIME: "1"
+              OAUTH2_CLIENT_ID: iT1FJDQTlTY9i8N8dYeypDEGe1qsTZUX9TBft8yi
+              OAUTH2_USER_CREATION: "1"
+              OAUTH2_OIDC_DISCOVERY_ENDPOINT: https://auth.monosense.io/application/o/miniflux/
+              OAUTH2_PROVIDER: oidc
+              OAUTH2_REDIRECT_URL: https://${HOSTNAME}/oauth2/oidc/callback
+              POLLING_SCHEDULER: "entry_frequency"
+              POLLING_FREQUENCY: "15"
+              RUN_MIGRATIONS: "1"
+            envFrom:
+              - secretRef:
+                  name: miniflux-secret
+            probes:
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  initialDelaySeconds: 30
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 3
+                  httpGet:
+                    path: /healthcheck
+                    port: 8080
+            resources:
+              requests:
+                cpu: 12m
+                memory: 64M
+              limits:
+                memory: 256M
+
+    service:
+      main:
+        ports:
+          http:
+            port: 8080
+
+    ingress:
+      main:
+        enabled: true
+        className: "external-nginx"
+        annotations:
+          external-dns.alpha.kubernetes.io/target: ingress-ext.monosense.io
+        hosts:
+          - host: "${HOSTNAME}"
+            paths:
+              - path: /
+                service:
+                  name: main
+                  port: http
+        tls:
+          - hosts:
+              - "${HOSTNAME}"

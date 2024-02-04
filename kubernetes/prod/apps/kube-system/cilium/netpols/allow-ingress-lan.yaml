@@ -1,0 +1,18 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cilium.io/ciliumclusterwidenetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumClusterwideNetworkPolicy
+metadata:
+  name: allow-ingress-lan
+spec:
+  endpointSelector:
+    matchLabels:
+      ingress.home.arpa/lan: "allow"
+  ingress:
+    - fromCIDRSet:
+        - cidr: "172.16.10.0/24"
+        - cidr: "172.16.11.0/24"
+        - cidr: "172.16.12.0/24"
+        - cidr: "172.16.13.0/24"
+        - cidr: "172.16.14.0/24"
+        - cidr: "172.16.16.0/24"
