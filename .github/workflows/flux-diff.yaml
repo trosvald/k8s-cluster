@@ -75,7 +75,7 @@ jobs:
         id: diff
         with:
           sources: k8s-cluster
-          live-branch: master
+          live-branch: main
           path: "${{ matrix.paths }}"
           resource: "${{ matrix.resources }}"
 
