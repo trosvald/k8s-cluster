@@ -18,8 +18,15 @@ spec:
 
   install:
     crds: CreateReplace
+    remediation:
+      retries: 3
   upgrade:
     crds: CreateReplace
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
 
   values:
     installCRDs: true
@@ -41,13 +48,20 @@ spec:
       - --dns01-recursive-nameservers-only
       - --enable-certificate-owner-ref
 
-    replicaCount: 1
+    replicaCount: 2
 
     podDnsPolicy: "None"
     podDnsConfig:
       nameservers:
         - "203.142.82.222"
         - "203.142.84.222"
+
+    prometheus:
+      enabled: true
+      servicemonitor:
+        enabled: true
+        prometheusInstance: monitoring
+
     podLabels:
       egress.home.arpa/apiserver: allow
       egress.home.arpa/world: allow

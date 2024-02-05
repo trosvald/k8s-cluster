@@ -26,14 +26,3 @@ spec:
         - ports:
             - port: "18083"
               protocol: TCP
-    - fromCIDRSet:
-        - cidr: "172.16.10.0/24"
-        - cidr: "172.16.11.0/24"
-        - cidr: "172.16.12.0/24"
-        - cidr: "172.16.13.0/24"
-        - cidr: "172.16.14.0/24"
-        - cidr: "172.16.16.0/24"
-      toPorts:
-        - ports:
-            - port: "1883"
-              protocol: TCP

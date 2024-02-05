@@ -6,12 +6,12 @@ metadata:
   name: &appname tf-controller
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: "./kubernetes/prod/apps/infrastructure/tf-controller/app"
+  path: "./kubernetes/prod/apps/flux-system/tf-controller/app"
   prune: true
   sourceRef:
     kind: GitRepository
@@ -27,12 +27,12 @@ metadata:
   name: &appname tf-controller-terraforms
   namespace: flux-system
 spec:
-  targetNamespace: infrastructure
+  targetNamespace: flux-system
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
   interval: 10m
-  path: "./kubernetes/prod/apps/infrastructure/tf-controller/terraforms"
+  path: "./kubernetes/prod/apps/flux-system/tf-controller/terraforms"
   prune: true
   sourceRef:
     kind: GitRepository
