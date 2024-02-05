@@ -68,7 +68,7 @@ My hardware I managed to acquire, sticking to amd64 based machines for now.
 | Lenovo Thinkcentre M910q                              | 3     | 256GB SSD     | -                    | 32GB    | Talos            | control-plane     |
 | Lenovo Thinkcentre M720q                              | 2     | 240GB SSD     | 1TB NVME             | 64GB    | Talos            | worker            |
 | Lenovo Thinkcentre M920x                              | 2     | 512GB NVME    | 1TB NVME             | 64GB    | Talos            | worker            |
-| Dell PE R720xd                                        | 1     | 500GB SSD     | 4x4TB HDD - ISCSI/NFS| 128GB   | TrueNAS Core     | NAS               |
+| Dell PE R720xd                                        | 1     | 500GB SSD     | 4x4TB HDD - ISCSI/NFS| 256GB   | TrueNAS Core     | NAS               |
 |                                                       |       |               | 8x800GB SSD - S3     |         |                  |                   |
 | Lenovo Thinkcentre M720q                              | 1     | 512GB NVME    | -                    | 16GB    | VyOS 1.4         | Router            |
 | TP-LINK TL-SG3428X                                    | 1     | N/A           | N/A                  | N/A     | N/A              | Core Switch       |
