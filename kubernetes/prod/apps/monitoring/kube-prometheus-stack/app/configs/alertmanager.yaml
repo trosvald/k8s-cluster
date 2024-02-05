@@ -1,25 +1,22 @@
 ---
 global:
   resolve_timeout: 5m
-
+  slack_api_url: "{{ .slack_hook }}"
 
 route:
   group_by: ["alertname", "job"]
   group_interval: 10m
   group_wait: 1m
   repeat_interval: 12h
+  receiver: "slack"
+
   routes:
     - receiver: "null"
       matchers:
         - alertname =~ "InfoInhibitor"
-    # - receiver: telegram
-    #   continue: true
-    #   matchers:
-    #     - severity = "critical"
+
     - receiver: slack
       continue: true
-      matchers:
-        - severity = "critical"
 
 inhibit_rules:
   - equal: ["alertname", "namespace"]
@@ -30,64 +27,73 @@ inhibit_rules:
 
 receivers:
   - name: "null"
-  # - name: "telegram"
-  #   telegram_configs:
-  #     - bot_token: "{{ .telegram_bot_token }}"
-  #       chat_id: 776292398
-  #       parse_mode: "HTML"
-  #       message: |-
-  #         {{- range .Alerts }}
-  #           {{- if eq .Labels.severity "warning"}}
-  #             ⚠ <b>{{ .Labels.severity }}</b>
-  #           {{- else if ne .Labels.severity "" }}
-  #             <b>{{ .Labels.severity }}</b>
-  #           {{- else }}
-  #             <b>Severity:</b> <i>N/A</i>
-  #           {{- end }}
-  #           {{- if ne .Annotations.description "" }}
-  #             <b>Description:</b> <i>{{ .Annotations.description }}</i>
-  #           {{- else if ne .Annotations.summary "" }}
-  #             <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
-  #           {{- else if ne .Annotations.message "" }}
-  #             <b>Message:</b> <i>{{ .Annotations.message }}</i>
-  #           {{- else }}
-  #             <b>Description:</b> <i>N/A</i>
-  #           {{- end }}
-  #           {{- if gt (len .Labels.SortedPairs) 0 }}
-  #             <b>Details:</b>
-  #             {{- range .Labels.SortedPairs }}
-  #               • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
-  #             {{- end }}
-  #           {{- end }}
-  #         {{- end }}
   - name: "slack"
     slack_configs:
-      - channel: "{{ .slack_channel }}"
-        slack_api_url: "{{ .slack_hook }}"
+      - channel: "#gitops"
         send_resolved: true
         icon_url: https://avatars3.githubusercontent.com/u/3380462
-        message: |-
-          {{- range .Alerts }}
-            {{- if eq .Labels.severity "warning"}}
-              ⚠ <b>{{ .Labels.severity }}</b>
-            {{- else if ne .Labels.severity "" }}
-              <b>{{ .Labels.severity }}</b>
-            {{- else }}
-              <b>Severity:</b> <i>N/A</i>
-            {{- end }}
-            {{- if ne .Annotations.description "" }}
-              <b>Description:</b> <i>{{ .Annotations.description }}</i>
-            {{- else if ne .Annotations.summary "" }}
-              <b>Summary:</b> <i>{{ .Annotations.summary }}</i>
-            {{- else if ne .Annotations.message "" }}
-              <b>Message:</b> <i>{{ .Annotations.message }}</i>
-            {{- else }}
-              <b>Description:</b> <i>N/A</i>
-            {{- end }}
-            {{- if gt (len .Labels.SortedPairs) 0 }}
-              <b>Details:</b>
-              {{- range .Labels.SortedPairs }}
-                • <b>{{ .Name }}:</b> <i>{{ .Value }}</i>
-              {{- end }}
-            {{- end }}
+        color: '{{ if eq .Status "firing" -}}{{ if eq .CommonLabels.severity "warning" -}}warning{{- else if eq .CommonLabels.severity "critical" -}}danger{{- else -}}#439FE0{{- end -}}{{ else -}}good{{- end }}'
+        title: |
+          {{/* Title of the Slack alert */}}
+          {{ define "slack.title" -}}
+          [{{ .Status | toUpper -}}
+          {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
+          ] {{ .CommonLabels.alertname }}
           {{- end }}
+          {{ template "slack.title" . }}
+        text: |
+          {{/* Severity of the alert */}}
+          {{ define "__alert_severity" -}}
+              {{- if eq .CommonLabels.severity "critical" -}}
+              *Severity:* `Critical` :red_alert:
+              {{- else if eq .CommonLabels.severity "warning" -}}
+              *Severity:* `Warning` :warning:
+              {{- else if eq .CommonLabels.severity "info" -}}
+              *Severity:* `Info` :information_source:
+              {{- else -}}
+              *Severity:* `Unknown` :question: {{ .CommonLabels.severity }}
+              {{- end }}
+          {{- end }}
+          {{/* The text to display in the alert */}}
+          {{ define "slack.text" -}}
+
+              {{ template "__alert_severity" . }}
+              {{- if (index .Alerts 0).Annotations.summary }}
+              {{- "\n" -}}
+              *Summary:* {{ (index .Alerts 0).Annotations.summary }}
+              {{- end }}
+              {{- if (index .Alerts 0).Labels.namespace }}
+              {{- "\n" -}}
+              *Namespace:* `{{ (index .Alerts 0).Labels.namespace }}`
+              {{- end }}
+              {{ range .Alerts }}
+
+                  {{- if .Annotations.description }}
+                  {{- "\n" -}}
+                  {{ .Annotations.description }}
+                  {{- "\n" -}}
+                  {{- end }}
+                  {{- if .Annotations.message }}
+                  {{- "\n" -}}
+                  {{ .Annotations.message }}
+                  {{- "\n" -}}
+                  {{- end }}
+
+              {{- end }}
+
+          {{- end }}
+          {{ template "slack.text" . }}
+        actions:
+          - type: button
+            text: "Runbook :green_book:"
+            url: "{{ (index .Alerts 0).Annotations.runbook_url }}"
+          - type: button
+            text: "Query :mag:"
+            url: "{{ (index .Alerts 0).GeneratorURL }}"
+          - type: button
+            text: "Dashboard :chart_with_upwards_trend:"
+            url: "{{ (index .Alerts 0).Annotations.dashboard_url }}"
+          - type: button
+            text: "Silence :no_bell:"
+            # Specifying the url with multiline YAML string does not work, hence this difficult-to-read single quoted one liner.
+            url: '{{ .ExternalURL }}/#/silences/new?filter=%7B{{- range .CommonLabels.SortedPairs -}}{{- if ne .Name "alertname" -}}{{- .Name }}%3D"{{- .Value -}}"%2C%20{{- end -}}{{- end -}}alertname%3D"{{- .CommonLabels.alertname -}}"%7D'
