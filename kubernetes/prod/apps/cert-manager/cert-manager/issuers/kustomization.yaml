@@ -5,5 +5,5 @@ resources:
   - ./externalsecret.yaml
   - ./issuer-letsencrypt-prd.yaml
   - ./issuer-letsencrypt-staging.yaml
-  - ./issuer-buypass-prd.yaml
-  - ./issuer-buypass-staging.yaml
+  # - ./issuer-buypass-prd.yaml
+  # - ./issuer-buypass-staging.yaml
