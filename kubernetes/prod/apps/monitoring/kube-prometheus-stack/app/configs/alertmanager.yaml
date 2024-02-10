@@ -8,15 +8,16 @@ route:
   group_interval: 10m
   group_wait: 1m
   repeat_interval: 12h
-  receiver: "slack"
+  receiver: slack
 
   routes:
     - receiver: "null"
       matchers:
         - alertname =~ "InfoInhibitor"
-
     - receiver: slack
       continue: true
+      matchers:
+        - severity = "critical"
 
 inhibit_rules:
   - equal: ["alertname", "namespace"]
@@ -26,7 +27,8 @@ inhibit_rules:
       - severity = "warning"
 
 receivers:
-  - name: "slack"
+  - name: "null"
+  - name: slack
     slack_configs:
       - channel: "#gitops"
         send_resolved: true
@@ -55,7 +57,6 @@ receivers:
           {{- end }}
           {{/* The text to display in the alert */}}
           {{ define "slack.text" -}}
-
               {{ template "__alert_severity" . }}
               {{- if (index .Alerts 0).Annotations.summary }}
               {{- "\n" -}}
@@ -66,7 +67,6 @@ receivers:
               *Namespace:* `{{ (index .Alerts 0).Labels.namespace }}`
               {{- end }}
               {{ range .Alerts }}
-
                   {{- if .Annotations.description }}
                   {{- "\n" -}}
                   {{ .Annotations.description }}
@@ -77,9 +77,7 @@ receivers:
                   {{ .Annotations.message }}
                   {{- "\n" -}}
                   {{- end }}
-
               {{- end }}
-
           {{- end }}
           {{ template "slack.text" . }}
         actions:
