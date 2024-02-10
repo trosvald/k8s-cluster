@@ -7,6 +7,6 @@ resources:
   # Network policy
   # - ./networkpolicy.yaml
   # Flux-Kustomizations
-  # - ./cloudnative-pg/ks.yaml
-  - ./pgadmin/ks.yaml
+  - ./cloudnative-pg/ks.yaml
+  # - ./pgadmin/ks.yaml
   - ./redis/ks.yaml
