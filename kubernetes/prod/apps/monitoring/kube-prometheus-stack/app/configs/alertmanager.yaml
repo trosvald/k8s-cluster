@@ -26,7 +26,6 @@ inhibit_rules:
       - severity = "warning"
 
 receivers:
-  - name: "null"
   - name: "slack"
     slack_configs:
       - channel: "gitops"
