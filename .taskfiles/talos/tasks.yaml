@@ -12,7 +12,7 @@ tasks:
   generate:
     internal: true
     desc: Generate Talos machine configurations (task talos:generate)
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - talhelper genconfig
     sources:
@@ -34,7 +34,7 @@ tasks:
   apply-insecure:
     internal: true
     desc: Apply Talos config to a node in maintenance mode
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - task: generate
       - talosctl apply-config -i -n {{ .IP }} -f clusterconfig/prod-{{ .NODE }}.{{ .DOMAIN }}.yaml
@@ -42,7 +42,7 @@ tasks:
   upgrade:
     internal: false
     desc: Upgrade a single node to Talos version {{ .TALOS_VERSION }} (task talos:upgrade NODE=k8s-m0 IP=172.16.11.10)
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     status:
       - talosctl version -n {{ .NODE }}.{{ .DOMAIN }} --short | grep 'Tag.*{{ .TALOS_VERSION }}'
     cmds:
@@ -56,25 +56,25 @@ tasks:
     desc: Init talosctl and grab kubeconfig (task talos:init)
     cmds:
       - task: generate
-      # - talosctl config merge kubernetes/prod/talos/clusterconfig/talosconfig
-      # - talosctl --talosconfig=kubernetes/prod/talos/clusterconfig/talosconfig kubeconfig -n prod.{{ .DOMAIN }} -f
+      # - talosctl config merge infrastructure/talos/clusterconfig/talosconfig
+      # - talosctl --talosconfig=infrastructure/talos/clusterconfig/talosconfig kubeconfig -n prod.{{ .DOMAIN }} -f
 
   reset:
     desc: Reset cluster
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - ./reset.sh
 
   deploy-integrations:
     internal: true
     desc: Deploy Integrations
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - ./deploy-integrations.sh
 
   install:
     desc: Install talos on uninitialized machines
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - task: generate
       - task: apply-insecure
@@ -103,14 +103,14 @@ tasks:
 
   apply:
     desc: Apply Talos config to a specific node (task talos:apply NODE=k8s-control01)
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - task: generate
       - talosctl apply-config -n {{ .NODE }}.{{ .DOMAIN }} -f clusterconfig/prod-{{ .NODE }}.{{ .DOMAIN }}.yaml {{ .CLI_ARGS }}
 
   apply:all:
     desc: Apply Talos config to all nodes
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - task: generate
       - task: apply
@@ -128,7 +128,7 @@ tasks:
 
   upgrade:all:
     desc: Upgrade all nodes to Talos version {{ .TALOS_VERSION }} (task talos:upgrade:all)
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     cmds:
       - task: generate
       # control-plane
@@ -149,7 +149,7 @@ tasks:
         vars: {NODE: k8s-w3, IP: "172.16.11.16"}
 
   upgrade:k8s:
-    dir: kubernetes/prod/talos
+    dir: infrastructure/talos
     desc: Upgrade Kubernetes to {{ .KUBERNETES_VERSION }} (task talos:upgrade:k8s NODE=k8s-m0)
     cmds:
       - task: generate

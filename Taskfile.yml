@@ -5,7 +5,7 @@ vars:
   ROOT_DIR:
     sh: "git rev-parse --show-toplevel"
   KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
-  TALOS_DIR: "{{.ROOT_DIR}}/kubernetes/talos"
+  TALOS_DIR: "{{.ROOT_DIR}}/infrastructure/talos"
   TERRAFORM_DIR: "{{.ROOT_DIR}}/infrastructure/terraform"
 
 # env:

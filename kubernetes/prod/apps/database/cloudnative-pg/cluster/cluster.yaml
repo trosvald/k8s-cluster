@@ -11,7 +11,7 @@ spec:
   primaryUpdateStrategy: unsupervised
   storage:
     size: 20Gi
-    storageClass: truenas-iscsi
+    storageClass: truenas-iscsi-ssd
   postgresql:
     parameters:
       max_connections: "600"

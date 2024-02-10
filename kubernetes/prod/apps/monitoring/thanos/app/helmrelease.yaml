@@ -74,7 +74,7 @@ spec:
       retentionResolution1h: 90d
       persistence:
         enabled: true
-        storageClass: truenas-iscsi
+        storageClass: truenas-iscsi-ssd
         size: 20Gi
     storegateway:
       enabled: true
@@ -82,7 +82,7 @@ spec:
       config: *config
       persistence:
         enabled: true
-        storageClass: truenas-iscsi
+        storageClass: truenas-iscsi-ssd
         size: 20Gi
     ruler:
       enabled: true
@@ -108,7 +108,7 @@ spec:
         enabled: true
       persistence:
         enabled: true
-        storageClass: truenas-iscsi
+        storageClass: truenas-iscsi-ssd
         size: 20Gi
     metrics:
       enabled: true
