@@ -7,7 +7,7 @@ area/taskfiles:
       - any-glob-to-any-file: ".taskfiles/**/*"
 area/talos:
   - changed-files:
-      - any-glob-to-any-file: "kubernetes/**/talos/**/*"
+      - any-glob-to-any-file: "infrastructure/talos/**/*"
       - any-glob-to-any-file: Taskfile*
 area/github:
   - changed-files:
