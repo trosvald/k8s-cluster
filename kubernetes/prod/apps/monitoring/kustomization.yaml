@@ -9,7 +9,7 @@ resources:
   - ./grafana/ks.yaml
   - ./karma/ks.yaml
   - ./kromgo/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
+  # - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   # - ./node-exporter/ks.yaml
   - ./thanos/ks.yaml
