@@ -28,14 +28,14 @@ inhibit_rules:
 receivers:
   - name: "slack"
     slack_configs:
-      - channel: "gitops"
+      - channel: "#gitops"
         send_resolved: true
         icon_url: https://avatars3.githubusercontent.com/u/3380462
         color: '{{ if eq .Status "firing" -}}{{ if eq .CommonLabels.severity "warning" -}}warning{{- else if eq .CommonLabels.severity "critical" -}}danger{{- else -}}#439FE0{{- end -}}{{ else -}}good{{- end }}'
         title: |
           {{/* Title of the Slack alert */}}
           {{ define "slack.title" -}}
-          [{{ .Status }}
+          [{{ .Status | toUpper -}}
           {{ if eq .Status "firing" }}:{{ .Alerts.Firing | len }}{{- end -}}
           ] {{ .CommonLabels.alertname }}
           {{- end }}
