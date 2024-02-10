@@ -47,8 +47,15 @@ spec:
               protocol: TCP
 
     # Shelly UDP
+    # This not working
     - toEntities:
         - world
+      toPorts:
+        - ports:
+            - port: "5683"
+              protocol: UDP
+    - toCIDRSet:
+        - cidr: 224.0.0.0/3
       toPorts:
         - ports:
             - port: "5683"
