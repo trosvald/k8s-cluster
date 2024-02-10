@@ -45,3 +45,11 @@ spec:
         - ports:
             - port: "8095"
               protocol: TCP
+
+    # Shelly UDP
+    - toEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "5683"
+              protocol: UDP
