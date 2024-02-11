@@ -4,7 +4,7 @@ name: "Flux Diff"
 on:
   pull_request:
     branches: ["main"]
-    paths: [kubernetes/**]
+    # paths: [kubernetes/**]
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
@@ -14,7 +14,8 @@ jobs:
 
   changed-files:
     name: Changed Files
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: arc-runner-set-k8s-cluster
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
@@ -39,7 +40,8 @@ jobs:
 
   flux-diff:
     name: Flux Diff
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: arc-runner-set-k8s-cluster
     needs: ["changed-files"]
     permissions:
       pull-requests: write
@@ -75,7 +77,7 @@ jobs:
         id: diff
         with:
           sources: k8s-cluster
-          live-branch: main
+          # live-branch: main
           path: "${{ matrix.paths }}"
           resource: "${{ matrix.resources }}"
 
