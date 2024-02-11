@@ -9,7 +9,8 @@ on: # yamllint disable-line rule:truthy
 jobs:
   labeler:
     name: Labeler
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: arc-runner-set-k8s-cluster
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
