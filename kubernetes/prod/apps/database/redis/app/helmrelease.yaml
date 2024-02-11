@@ -35,20 +35,20 @@ spec:
         size: 2Gi
       resources:
         requests:
-          cpu: 15m
-          memory: 20Mi
+          cpu: 500m
+          memory: 512Mi
         limits:
-          memory: 100Mi
+          memory: 1024Mi
     replica:
       persistence:
         enabled: true
         size: 2Gi
       resources:
         requests:
-          cpu: 15m
-          memory: 20Mi
+          cpu: 500m
+          memory: 512Mi
         limits:
-          memory: 100Mi
+          memory: 1024Mi
     commonConfiguration: |-
       # Enable AOF https://redis.io/topics/persistence#append-only-file
       appendonly yes
