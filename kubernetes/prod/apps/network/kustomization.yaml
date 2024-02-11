@@ -12,3 +12,4 @@ resources:
   - ./multus/ks.yaml
   # Standard Resources
   - ./s3-proxy/ks.yaml
+  - ./chat-proxy/ks.yaml
