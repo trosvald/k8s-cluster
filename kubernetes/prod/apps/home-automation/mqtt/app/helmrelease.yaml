@@ -51,7 +51,7 @@ spec:
       annotations:
         external-dns.alpha.kubernetes.io/hostname: "mqtt.monosense.io"
         io.cilium/lb-ipam-ips: "10.10.10.5"
-      externalTrafficPolicy: Cluster
+      externalTrafficPolicy: Local
 
     ingress:
       dashboard:
