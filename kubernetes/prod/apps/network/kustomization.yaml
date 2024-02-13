@@ -13,3 +13,4 @@ resources:
   # Standard Resources
   - ./s3-proxy/ks.yaml
   - ./chat-proxy/ks.yaml
+  - ./hassio-proxy/ks.yaml
