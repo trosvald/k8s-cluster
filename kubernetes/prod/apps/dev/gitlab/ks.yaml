@@ -20,4 +20,4 @@ spec:
   dependsOn:
     - name: external-secrets-stores
     - name: cloudnative-pg-cluster
-    - name: democratic-csi-iscsi-hdd
+    - name: rook-ceph-cluster

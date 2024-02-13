@@ -31,6 +31,12 @@ resource "authentik_group" "development" {
   name         = "development"
   is_superuser = false
 }
+
+resource "authentik_group" "database" {
+  name         = "database"
+  is_superuser = false
+}
+
 resource "authentik_group" "administrator" {
   name          = "administrator"
   users         = [authentik_user.monosense.id]

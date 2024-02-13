@@ -40,6 +40,12 @@ module "secret_weave" {
   item   = "weave-gitops"
 }
 
+module "secret_pgadmin" {
+  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  vault  = "Automation"
+  item   = "pgadmin"
+}
+
 # module "secret_nextcloud" {
 #   source = "github.com/bjw-s/terraform-1password-item?ref=main"
 #   vault  = "Automation"

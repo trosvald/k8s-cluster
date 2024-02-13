@@ -47,6 +47,21 @@ module "oauth2-weave" {
   redirect_uris       = ["https://gitops.${module.secret_authentik.fields["cluster_domain"]}/oauth2/callback"]
 }
 
+module "oauth2-pgadmin" {
+  source              = "./oauth2_application"
+  name                = "PgAdmin"
+  icon_url            = "https://raw.githubusercontent.com/pgadmin-org/pgadmin4/master/web/pgadmin/static/img/logo-right-256.png"
+  launch_url          = "https://pgadmin.${module.secret_authentik.fields["cluster_domain"]}"
+  description         = "PostgreSQL Management"
+  newtab              = true
+  group               = "Database"
+  auth_groups         = [authentik_group.database.id]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id           = module.secret_pgadmin.fields["oidc_client_id"]
+  client_secret       = module.secret_pgadmin.fields["oidc_client_secret"]
+  redirect_uris       = ["https://pgadmin.${module.secret_authentik.fields["cluster_domain"]}/oauth2/authorize"]
+}
+
 # module "oauth2-weave" {
 #   source              = "./oauth2_application"
 #   name                = "Weave GitOps"
