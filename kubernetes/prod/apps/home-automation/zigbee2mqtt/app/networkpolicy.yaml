@@ -17,3 +17,9 @@ spec:
         - ports:
             - port: "1883"
               protocol: TCP
+    - toCIDRSet:
+        - cidr: 172.16.10.13/32
+      toPorts:
+        - ports:
+            - port: "1883"
+              protocol: TCP

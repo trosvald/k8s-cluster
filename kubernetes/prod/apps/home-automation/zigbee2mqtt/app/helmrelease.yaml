@@ -68,7 +68,8 @@ spec:
               ZIGBEE2MQTT_CONFIG_MQTT_INCLUDE_DEVICE_INFORMATION: "true"
               ZIGBEE2MQTT_CONFIG_MQTT_KEEPALIVE: 60
               ZIGBEE2MQTT_CONFIG_MQTT_REJECT_UNAUTHORIZED: "true"
-              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mqtt-emqx.home-automation.svc.cluster.local"
+              # ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://mqtt-emqx.home-automation.svc.cluster.local"
+              ZIGBEE2MQTT_CONFIG_MQTT_SERVER: "mqtt://172.16.10.13"
               ZIGBEE2MQTT_CONFIG_MQTT_VERSION: 5
               ZIGBEE2MQTT_CONFIG_PERMIT_JOIN: "false"
               ZIGBEE2MQTT_CONFIG_SERIAL_PORT: /dev/serial/by-id/usb-ITead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_c83018cbda5fec119d6a305f25bfaa52-if00-port0
