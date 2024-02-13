@@ -2,19 +2,18 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: immich-nfs
+  name: immich-postgres-backups
   namespace: media
 spec:
-  storageClassName: immich-nfs
+  storageClassName: immich-postgres-backups
   capacity:
     storage: 1Mi
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Retain
   nfs:
-    server: "172.16.11.1"
-    path: /mnt/hdd/nfs/immich
-  # Note: The first two options are strictly for NFSv4.2
+    server: 172.16.11.1
+    path: "/mnt/hdd/nfs/backup"
   mountOptions:
     - nfsvers=4.2
     - nconnect=8
@@ -26,12 +25,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: immich-nfs
+  name: immich-postgres-backups
   namespace: media
 spec:
+  storageClassName: immich-postgres-backups
   accessModes:
     - ReadWriteMany
-  storageClassName: immich-nfs
   resources:
     requests:
       storage: 1Mi
