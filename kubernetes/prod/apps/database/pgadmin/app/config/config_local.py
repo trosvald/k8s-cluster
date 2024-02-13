@@ -1,5 +1,5 @@
 AUTHENTICATION_SOURCES = ['oauth2', 'internal']
-OAUTH2_AUTO_CREATE_USER = True
+OAUTH2_AUTO_CREATE_USER = False
 OAUTH2_CONFIG = [{
     'OAUTH2_NAME' : 'authentik',
     'OAUTH2_DISPLAY_NAME' : 'SSO',
