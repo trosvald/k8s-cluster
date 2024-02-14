@@ -11,7 +11,7 @@ spec:
     kind: GitRepository
     name: production
   dependsOn:
-    - name: immich-pg-cluster
+    - name: cloudnative-pg-cluster
     - name: external-secrets-stores
     - name: democratic-csi-iscsi-ssd
     - name: rook-ceph-cluster

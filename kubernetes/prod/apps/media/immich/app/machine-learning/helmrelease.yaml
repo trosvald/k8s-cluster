@@ -29,31 +29,26 @@ spec:
   dependsOn:
     - name: immich-server
   values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     controllers:
       main:
+        replicas: 3
         strategy: RollingUpdate
         annotations:
-          secret.reloader.stakater.com/reload: immich-secret
-          configmap.reloader.stakater.com/reload: immich-configmap
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v1.94.1
+              pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
                   name: immich-secret
@@ -66,18 +61,15 @@ spec:
             port: 3003
     persistence:
       library:
-        existingClaim: immich-nfs
-        globalMounts:
-          - path: /usr/src/app/upload
+        enabled: true
+        type: nfs
+        server: "172.16.11.1"
+        path: /mnt/hdd/nfs/immich
+        mountPath: /usr/src/app/upload
       cache:
+        enabled: true
         type: emptyDir
-        globalMounts:
-          - path: /cache
-      geocoding-dump:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.reverse-geocoding-dump
-      transformers-cache:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.transformers_cache
+    resources:
+      requests:
+        cpu: 100m
+        memory: 250Mi

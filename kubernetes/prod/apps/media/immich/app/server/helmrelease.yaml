@@ -29,31 +29,25 @@ spec:
   dependsOn:
     - name: immich-redis
   values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     controllers:
       main:
+        replicas: 3
         strategy: RollingUpdate
         annotations:
-          secret.reloader.stakater.com/reload: immich-secret
-          configmap.reloader.stakater.com/reload: immich-configmap
-        pod:
-          enableServiceLinks: false
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+          reloader.stakater.com/auto: "true"
         initContainers:
-          init-db:
+          01-init-db:
             image:
               repository: ghcr.io/onedr0p/postgres-init
-              tag: 16.2
+              tag: 16:1
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
@@ -63,6 +57,7 @@ spec:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.94.1
+              pullPolicy: IfNotPresent
             command: /bin/sh
             args:
               - ./start-server.sh
@@ -82,23 +77,24 @@ spec:
         className: external-nginx
         annotations:
           external-dns.alpha.kubernetes.io/target: ingress-ext.monosense.io
+          nignx.ingress.kubernetes.io/force-ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-body-size: "1g"
+          nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
         hosts:
-          - host: photos.monosense.io
+          - host: &host photos.monosense.io
             paths:
               - path: /
                 service:
                   name: main
                   port: http
+        tls:
+          - hosts:
+              - *host
     persistence:
       library:
-        existingClaim: immich-nfs
+        enabled: true
+        type: nfs
+        server: "172.16.11.1"
+        path: /mnt/hdd/nfs/immich
         globalMounts:
           - path: /usr/src/app/upload
-      geocoding-dump:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.reverse-geocoding-dump
-      transformers-cache:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.transformers_cache

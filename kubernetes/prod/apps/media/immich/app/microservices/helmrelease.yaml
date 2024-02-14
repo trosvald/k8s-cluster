@@ -26,34 +26,30 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
+  dependsOn:
+    - name: immich-redis
+    - name: immich-server
   values:
+    defaultPodOptions:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app.kubernetes.io/name: *app
     controllers:
       main:
+        replicas: 3
         strategy: RollingUpdate
         annotations:
-          secret.reloader.stakater.com/reload: immich-secret
-          configmap.reloader.stakater.com/reload: immich-configmap
-        pod:
-          enableServiceLinks: false
-          nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
-          securityContext:
-            runAsUser: 568
-            runAsGroup: 568
-            fsGroup: 568
-            fsGroupChangePolicy: OnRootMismatch
-          topologySpreadConstraints:
-            - maxSkew: 1
-              topologyKey: kubernetes.io/hostname
-              whenUnsatisfiable: DoNotSchedule
-              labelSelector:
-                matchLabels:
-                  app.kubernetes.io/name: *app
+          reloader.stakater.com/auto: "true"
         containers:
           main:
             image:
               repository: ghcr.io/immich-app/immich-server
               tag: v1.94.1
+              pullPolicy: IfNotPresent
             command: /bin/sh
             args:
               - ./start-microservices.sh
@@ -67,18 +63,9 @@ spec:
         enabled: false
     persistence:
       library:
-        existingClaim: immich-nfs
+        enabled: true
+        type: nfs
+        server: "172.16.11.1"
+        path: /mnt/hdd/nfs/immich
         globalMounts:
           - path: /usr/src/app/upload
-      geocoding-dump:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.reverse-geocoding-dump
-      geoname-dump:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/node_modules/local-reverse-geocoder/geonames_dump
-      transformers-cache:
-        type: emptyDir
-        globalMounts:
-          - path: /usr/src/app/.transformers_cache
