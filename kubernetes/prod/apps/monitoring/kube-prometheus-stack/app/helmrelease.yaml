@@ -28,30 +28,30 @@ spec:
     keepHistory: false
   values:
     cleanPrometheusOperatorObjectNames: true
-    alertmanager:
-      ingress:
-        enabled: true
-        ingressClassName: internal-nginx
-        hosts:
-          - &host alert.monosense.io
-        paths:
-          - /
-        pathType: Prefix
-        tls:
-          - hosts:
-              - *host
-      alertmanagerSpec:
-        replicas: 3
-        useExistingSecret: true
-        configSecret: alertmanager-secret
-        podAntiAffinity: hard
-        storage:
-          volumeClaimTemplate:
-            spec:
-              storageClassName: ceph-filesystem
-              resources:
-                requests:
-                  storage: 1Gi
+    # alertmanager:
+    #   ingress:
+    #     enabled: true
+    #     ingressClassName: internal-nginx
+    #     hosts:
+    #       - &host alert.monosense.io
+    #     paths:
+    #       - /
+    #     pathType: Prefix
+    #     tls:
+    #       - hosts:
+    #           - *host
+    #   alertmanagerSpec:
+    #     replicas: 3
+    #     useExistingSecret: true
+    #     configSecret: alertmanager-secret
+    #     podAntiAffinity: hard
+    #     storage:
+    #       volumeClaimTemplate:
+    #         spec:
+    #           storageClassName: ceph-filesystem
+    #           resources:
+    #             requests:
+    #               storage: 1Gi
     kubelet:
       enabled: true
       serviceMonitor:
