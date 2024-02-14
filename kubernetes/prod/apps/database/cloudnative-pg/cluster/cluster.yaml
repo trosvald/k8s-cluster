@@ -18,8 +18,8 @@ spec:
       max_slot_wal_keep_size: 10GB
       synchronous_commit: "off"
       shared_buffers: 512MB
-    shared_preload_libraries:
-      - "vectors.so"
+    # shared_preload_libraries:
+    #   - "vectors.so"
   superuserSecret:
     name: cloudnative-pg-secret
   monitoring:
