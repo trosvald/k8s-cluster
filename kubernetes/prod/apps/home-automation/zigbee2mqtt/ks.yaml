@@ -21,7 +21,6 @@ spec:
     - name: rook-ceph-cluster
     - name: volsync
     - name: external-secrets-stores
-    - name: mqtt
   postBuild:
     substitute:
       APP: *appname
