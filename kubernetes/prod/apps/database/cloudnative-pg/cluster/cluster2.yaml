@@ -6,7 +6,7 @@ metadata:
   name: pgvecto
 spec:
   instances: 3
-  imageName: ghcr.io/tensorchord/pgvecto-rs:pg16-v0.1.11
+  imageName: ghcr.io/bo0tzz/cnpgvecto.rs:14-v0.1.10
   enableSuperuserAccess: true
   primaryUpdateStrategy: unsupervised
   storage:
