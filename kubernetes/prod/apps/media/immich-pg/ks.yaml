@@ -6,8 +6,8 @@ metadata:
   name: &appname immich-pg
   namespace: flux-system
 spec:
-  path: ./kubernetes/prod/apps/database/immich-pg/app
-  targetNamespace: database
+  path: ./kubernetes/prod/apps/media/immich-pg/app
+  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
@@ -25,8 +25,8 @@ metadata:
   name: &appname immich-pg-cluster
   namespace: flux-system
 spec:
-  path: ./kubernetes/prod/apps/database/immich-pg/cluster
-  targetNamespace: database
+  path: ./kubernetes/prod/apps/media/immich-pg/cluster
+  targetNamespace: media
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
