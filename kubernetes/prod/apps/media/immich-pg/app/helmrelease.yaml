@@ -26,8 +26,8 @@ spec:
     keepHistory: false
   values:
     crds:
-      create: true
-    replicaCount: 2
-    config:
-      data:
-        INHERITED_LABELS: app.kubernetes.io/*
+      create: false
+    # replicaCount: 2
+    # config:
+    #   data:
+    #     INHERITED_LABELS: app.kubernetes.io/*
