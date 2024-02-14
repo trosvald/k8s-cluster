@@ -8,5 +8,6 @@ resources:
   # - ./networkpolicy.yaml
   # Flux-Kustomizations
   - ./cloudnative-pg/ks.yaml
+  - ./immich-pg/ks.yaml
   - ./pgadmin/ks.yaml
   - ./redis/ks.yaml

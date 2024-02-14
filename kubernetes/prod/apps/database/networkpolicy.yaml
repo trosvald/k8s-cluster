@@ -52,3 +52,12 @@ spec:
         - ports:
             - port: "5432"
               protocol: "TCP"
+    # Allow immich postgres from immich on port 5432/tcp
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: immich
+            "k8s:io.kubernetes.pod.namespace": media
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: "TCP"
