@@ -5,8 +5,5 @@ resources:
   # Pre Flux-Kustomizations
   - ./namespace.yaml
   # Flux-Kustomizations
-  # - ./libreddit/ks.yaml
-  # - ./miniflux/ks.yaml
   # - ./node-red/ks.yaml
-  # - ./wallabag/ks.yaml
-  # - ./zipline/ks.yaml
+  - ./outline/ks.yaml

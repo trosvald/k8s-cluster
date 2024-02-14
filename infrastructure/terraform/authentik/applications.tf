@@ -62,6 +62,22 @@ module "oauth2-pgadmin" {
   redirect_uris       = ["https://pgadmin.${module.secret_authentik.fields["cluster_domain"]}/oauth2/authorize"]
 }
 
+module "oauth2-outline" {
+  source              = "./oauth2_application"
+  name                = "Outline"
+  icon_url            = "https://www.getoutline.com/images/logo.svg"
+  launch_url          = "https://docs.${module.secret_authentik.fields["cluster_domain"]}"
+  description         = "Team Knowledge Base"
+  newtab              = true
+  group               = "Media"
+  auth_groups         = [authentik_group.media.id]
+  authorization_flow  = resource.authentik_flow.provider-authorization-implicit-consent.uuid
+  client_id           = module.secret_outline.fields["oidc_client_id"]
+  client_secret       = module.secret_outline.fields["oidc_client_secret"]
+  redirect_uris       = ["https://docs.${module.secret_authentik.fields["cluster_domain"]}/auth/oidc.callback"]
+}
+
+
 # module "oauth2-weave" {
 #   source              = "./oauth2_application"
 #   name                = "Weave GitOps"

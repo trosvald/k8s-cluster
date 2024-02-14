@@ -46,6 +46,12 @@ module "secret_pgadmin" {
   item   = "pgadmin"
 }
 
+module "secret_outline" {
+  source = "github.com/bjw-s/terraform-1password-item?ref=main"
+  vault  = "Automation"
+  item   = "outline"
+}
+
 # module "secret_nextcloud" {
 #   source = "github.com/bjw-s/terraform-1password-item?ref=main"
 #   vault  = "Automation"
