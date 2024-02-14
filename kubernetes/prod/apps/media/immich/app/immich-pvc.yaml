@@ -34,4 +34,4 @@ spec:
   storageClassName: immich-nfs
   resources:
     requests:
-      storage: 1Ti
+      storage: 1Mi
