@@ -42,7 +42,8 @@ spec:
         replicas: 3
         strategy: RollingUpdate
         annotations:
-          reloader.stakater.com/auto: "true"
+          secret.reloader.stakater.com/reload: &secret immich-secret
+          configmap.reloader.stakater.com/reload: &configmap immich-configmap
         initContainers:
           01-init-db:
             image:
@@ -51,7 +52,21 @@ spec:
               pullPolicy: IfNotPresent
             envFrom:
               - secretRef:
-                  name: immich-secret
+                  name: *secret
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: "OnRootMismatch"
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
         containers:
           main:
             image:
@@ -63,9 +78,30 @@ spec:
               - ./start-server.sh
             envFrom:
               - secretRef:
-                  name: immich-secret
+                  name: *secret
               - configMapRef:
-                  name: immich-configmap
+                  name: *configmap
+            resources:
+              requests:
+                cpu: 100m
+                memory: 250Mi
+              limits:
+                memory: 1000Mi
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /server-info/ping
+                    port: 3001
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 5
+              readiness: *probes
+              startup:
+                enabled: false
     service:
       main:
         ports:
@@ -81,20 +117,16 @@ spec:
           nginx.ingress.kubernetes.io/proxy-body-size: "1g"
           nginx.ingress.kubernetes.io/upstream-hash-by: "$client_ip"
         hosts:
-          - host: &host photos.monosense.io
+          - host: &host ${HOSTNAME}
             paths:
               - path: /
                 service:
                   name: main
                   port: http
-        tls:
-          - hosts:
-              - *host
+        tls: [hosts: [*host]]
     persistence:
       library:
         enabled: true
-        type: nfs
-        server: "172.16.11.1"
-        path: /mnt/hdd/nfs/immich
+        existingClaim: immich-nfs
         globalMounts:
           - path: /usr/src/app/upload

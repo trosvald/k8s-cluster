@@ -29,47 +29,68 @@ spec:
   dependsOn:
     - name: immich-server
   values:
-    defaultPodOptions:
-      topologySpreadConstraints:
-        - maxSkew: 1
-          topologyKey: kubernetes.io/hostname
-          whenUnsatisfiable: DoNotSchedule
-          labelSelector:
-            matchLabels:
-              app.kubernetes.io/name: *app
     controllers:
       main:
-        replicas: 3
         strategy: RollingUpdate
         annotations:
-          reloader.stakater.com/auto: "true"
+          configmap.reloader.stakater.com/reload: &configmap immich-configmap
+        pod:
+          enableServiceLinks: false
+          securityContext:
+            runAsUser: ${APP_UID}
+            runAsGroup: ${APP_GID}
+            fsGroup: ${APP_GID}
+            fsGroupChangePolicy: "OnRootMismatch"
+          topologySpreadConstraints:
+            - maxSkew: 1
+              topologyKey: kubernetes.io/hostname
+              whenUnsatisfiable: DoNotSchedule
+              labelSelector:
+                matchLabels:
+                  app.kubernetes.io/name: *app
         containers:
           main:
             image:
               repository: ghcr.io/immich-app/immich-machine-learning
               tag: v1.94.1
-              pullPolicy: IfNotPresent
-            envFrom:
-              - secretRef:
-                  name: immich-secret
-              - configMapRef:
-                  name: immich-configmap
+            env:
+              IMMICH_MEDIA_LOCATION: &mediaLocation /usr/src/app/upload
+              MACHINE_LEARNING_HOST: 0.0.0.0
+              MACHINE_LEARNING_PORT: &port 3003
+              MACHINE_LEARNING_CACHE_FOLDER: /cache
+              TRANSFORMERS_CACHE: /cache
+            resources:
+              requests:
+                cpu: 100m
+                memory: 250Mi
+              limits:
+                memory: 4000Mi
+            probes:
+              liveness: &probes
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /ping
+                    port: *port
+                  initialDelaySeconds: 0
+                  periodSeconds: 10
+                  timeoutSeconds: 1
+                  failureThreshold: 5
+              readiness: *probes
+              startup:
+                enabled: false
     service:
       main:
         ports:
           http:
-            port: 3003
+            port: *port
     persistence:
       library:
-        enabled: true
-        type: nfs
-        server: "172.16.11.1"
-        path: /mnt/hdd/nfs/immich
-        mountPath: /usr/src/app/upload
+        existingClaim: immich-nfs
+        globalMounts:
+          - path: *mediaLocation
       cache:
-        enabled: true
-        type: emptyDir
-    resources:
-      requests:
-        cpu: 100m
-        memory: 250Mi
+        existingClaim: immich-ml-cache
+        globalMounts:
+          - path: /cache

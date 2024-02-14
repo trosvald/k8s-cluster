@@ -10,15 +10,9 @@ data:
   ENABLE_MAPBOX: "false"
   LOG_LEVEL: verbose
   NODE_ENV: "production"
-  # REDIS_HOSTNAME: redis-lb.media.svc.cluster.local
-  # REDIS_DBINDEX: "10"
-  REDIS_HOSTNAME: immich-redis.media.svc.cluster.local
-  REDIS_PORT: "6379"
-  TYPESENSE_HOST: immich-typesense.media.svc.cluster.local
-  TYPESENSE_PORT: "8108"
-  TYPESENSE_PROTOCOL: http
-  TYPESENSE_DATA_DIR: /config
+  REDIS_URL: ioredis://eyJkYiI6MTEsInNlbnRpbmVscyI6W3siaG9zdCI6InJlZGlzLW5vZGUtMC5yZWRpcy1oZWFkbGVzcy5kYXRhYmFzZS5zdmMuY2x1c3Rlci5sb2NhbCIsInBvcnQiOjI2Mzc5fSx7Imhvc3QiOiJyZWRpcy1ub2RlLTEucmVkaXMtaGVhZGxlc3MuZGF0YWJhc2Uuc3ZjLmNsdXN0ZXIubG9jYWwiLCJwb3J0IjoyNjM3OX0seyJob3N0IjoicmVkaXMtbm9kZS0yLnJlZGlzLWRhdGFiYXNlLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiLCJwb3J0IjoyNjM3OX1dLCJuYW1lIjoicmVkaXMtbWFzdGVyIn0=
+  TRANSFORMERS_CACHE: /usr/src/app/.transformers_cache
   SERVER_PORT: "3001"
-  # IMMICH_WEB_URL: http://immich-web.media.svc.cluster.local:3000
+  IMMICH_WEB_URL: http://immich-web.media.svc.cluster.local:3000
   IMMICH_SERVER_URL: http://immich-server.media.svc.cluster.local:3001
   IMMICH_MACHINE_LEARNING_URL: http://immich-machine-learning.media.svc.cluster.local:3003

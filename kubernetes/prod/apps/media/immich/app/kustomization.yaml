@@ -7,7 +7,6 @@ resources:
   - ./externalsecret.yaml
   - ./immich-pvc.yaml
   - ./configmap.yaml
-  - ./redis
   - ./server
   - ./microservices
   - ./machine-learning
