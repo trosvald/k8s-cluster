@@ -70,3 +70,12 @@ spec:
         - ports:
             - port: "5432"
               protocol: "TCP"
+    # Allow postgres from harbor@dev on port 5432/tcp
+    - fromEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: harbor
+            "k8s:io.kubernetes.pod.namespace": dev
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: "TCP"

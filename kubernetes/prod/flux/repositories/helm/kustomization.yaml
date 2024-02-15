@@ -18,6 +18,7 @@ resources:
   - gitlab.yaml
   - ext-postgres-operator.yaml
   - grafana.yaml
+  - harbor.yaml
   - ingress-nginx.yaml
   - intel.yaml
   - jetstack.yaml

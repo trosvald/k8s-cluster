@@ -1,0 +1,14 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: dev
+spec:
+  values:
+    initContainers:
+      init-db:
+        image: ghcr.io/onedr0p/postgres-init:16.1
+        envFrom:
+          - secretRef:
+              name: harbor-secret
