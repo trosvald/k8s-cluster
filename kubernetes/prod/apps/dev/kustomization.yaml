@@ -6,5 +6,5 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   - ./actions-runner-controller/ks.yaml
-  # - ./harbor/ks.yaml
+  - ./harbor/ks.yaml
   # - ./gitlab/ks.yaml
