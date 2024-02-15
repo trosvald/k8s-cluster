@@ -33,7 +33,7 @@ spec:
       type: ingress
       ingress:
         controller: default
-        className: ingress-internal
+        className: external-nginx
         hosts:
           core: hcr.monosense.io
         annotations:
