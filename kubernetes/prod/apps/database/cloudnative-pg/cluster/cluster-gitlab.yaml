@@ -48,7 +48,7 @@ spec:
         maxParallel: 8
       destinationPath: s3://crunchydata/
       endpointURL: https://s3.monosense.io:9000
-      serverName: postgres
+      serverName: pggitlab
       s3Credentials:
         accessKeyId:
           name: cloudnative-pg-secret
