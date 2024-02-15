@@ -274,33 +274,33 @@ spec:
       volumeMounts:
         - name: root-gitlab-runner
           mountPath: /.gitlab-runner
-  postRenderers:
-    - kustomize:
-      patches:
-        - patch: |-
-          apiVersion: apps/v1
-          kind: Deployment
-          metadata:
-            name: dummy-app
-          spec:
-            template:
-              spec:
-                nodeSelector:
-                  kubernetes.io/arch: amd64
-          target:
-            kind: Deployment
-        - patch: |-
-          apiVersion: apps/v1
-          kind: StatefulSet
-          metadata:
-            name: dummy-app
-          spec:
-            template:
-              spec:
-                nodeSelector:
-                  kubernetes.io/arch: amd64
-          target:
-            kind: StatefulSet
+  # postRenderers:
+  #   - kustomize:
+  #     patches:
+  #       - patch: |-
+  #         apiVersion: apps/v1
+  #         kind: Deployment
+  #         metadata:
+  #           name: dummy-app
+  #         spec:
+  #           template:
+  #             spec:
+  #               nodeSelector:
+  #                 kubernetes.io/arch: amd64
+  #         target:
+  #           kind: Deployment
+  #       - patch: |-
+  #         apiVersion: apps/v1
+  #         kind: StatefulSet
+  #         metadata:
+  #           name: dummy-app
+  #         spec:
+  #           template:
+  #             spec:
+  #               nodeSelector:
+  #                 kubernetes.io/arch: amd64
+  #         target:
+  #           kind: StatefulSet
   valuesFrom:
     # DATABASE
     - kind: Secret
