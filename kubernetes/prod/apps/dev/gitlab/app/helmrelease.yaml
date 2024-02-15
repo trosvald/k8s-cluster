@@ -181,7 +181,7 @@ spec:
           objectStorage:
             config:
               secret: gitlab-backup-secret
-          #     key: config
+              key: local
       # gitlab-pages:
       #   # The default requests are massive for a static server
       #   resources:
