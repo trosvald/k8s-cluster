@@ -1,10 +1,10 @@
 AUTHENTICATION_SOURCES = ['oauth2', 'internal']
-OAUTH2_AUTO_CREATE_USER = False
+OAUTH2_AUTO_CREATE_USER = True
 OAUTH2_CONFIG = [{
     'OAUTH2_NAME' : 'authentik',
     'OAUTH2_DISPLAY_NAME' : 'SSO',
     'OAUTH2_CLIENT_ID' : 'GRX3MFrigWLF2wgYfwfNJJ6j',
-    'OAUTH2_CLIENT_SECRET' : '{{ .oidc_client_secret }}',
+    'OAUTH2_CLIENT_SECRET' : 'yiK7epyqi7yoXbKfTtroNpYvgRMdb3cz',
     'OAUTH2_TOKEN_URL' : 'https://auth.monosense.io/application/o/token/',
     'OAUTH2_AUTHORIZATION_URL' : 'https://auth.monosense.io/application/o/authorize/',
     'OAUTH2_API_BASE_URL' : 'https://auth.monosense.io/',
