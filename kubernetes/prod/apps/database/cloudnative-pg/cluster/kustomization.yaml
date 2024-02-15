@@ -5,6 +5,7 @@ kind: Kustomization
 resources:
   - ./cluster.yaml
   - ./cluster2.yaml
+  - ./cluster-gitlab.yaml
   - ./externalsecret.yaml
   - ./service.yaml
   - ./prometheusrule.yaml
