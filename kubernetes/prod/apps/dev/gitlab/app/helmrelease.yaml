@@ -165,11 +165,11 @@ spec:
         extraEnvFrom:
           AWS_ACCESS_KEY_ID:
             secretKeyRef:
-              name: gitlab-backup-secret
+              name: s3cmd-secret
               key: accesskey
           AWS_SECRET_ACCESS_KEY:
             secretKeyRef:
-              name: gitlab-backup-secret
+              name: s3cmd-secret
               key: secretkey
         extraEnv:
           AWS_DEFAULT_REGION: dpk-ptr-tcore-1
