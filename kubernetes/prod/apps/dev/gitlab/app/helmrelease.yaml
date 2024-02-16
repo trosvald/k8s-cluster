@@ -165,11 +165,11 @@ spec:
         extraEnvFrom:
           AWS_ACCESS_KEY_ID:
             secretKeyRef:
-              name: s3cmd-secret
+              name: gitlab-backup-secret
               key: accesskey
           AWS_SECRET_ACCESS_KEY:
             secretKeyRef:
-              name: s3cmd-secret
+              name: gitlab-backup-secret
               key: secretkey
         extraEnv:
           AWS_DEFAULT_REGION: dpk-ptr-tcore-1
@@ -178,10 +178,10 @@ spec:
             enabled: true
             schedule: "@daily"
             extraArgs: "--s3tool awscli --aws-s3-endpoint-url https://s3.monosense.io:9000"
-          objectStorage:
-            config:
-              secret: gitlab-backup-secret
-              key: local
+          # objectStorage:
+          #   config:
+          #     secret: s3cmd-secret
+          #     key: local
       # gitlab-pages:
       #   # The default requests are massive for a static server
       #   resources:
