@@ -17,14 +17,14 @@ spec:
         namespace: flux-system
   values:
     podAnnotations:
-      secret.reloader.stakater.com/reload: oidc-auth,cluster-user-auth
+      secret.reloader.stakater.com/reload: cluster-user-auth
 
     logLevel: info
 
     adminUser:
       create: true
       createSecret: false
-      username: &admin_user admin
+      username: admin
 
     networkPolicy:
       create: false
