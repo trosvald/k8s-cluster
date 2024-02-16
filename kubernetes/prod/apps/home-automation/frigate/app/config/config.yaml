@@ -8,7 +8,7 @@ mqtt:
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "info"]
   # hwaccel_args: preset-vaapi
-  hwaccel_args: preset-intel-qsv-h264
+  hwaccel_args: preset-vaapi
   output_args:
     record: preset-record-generic-audio-aac
 
