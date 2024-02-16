@@ -45,7 +45,7 @@ spec:
         class: external-nginx
         annotations:
           external-dns.alpha.kubernetes.io/target: ingress-ext.monosense.io
-          nginx.ingress.kubernetes.io/custom-http-errors: "418"
+          # nginx.ingress.kubernetes.io/custom-http-errors: "418"
           nginx.ingress.kubernetes.io/enable-global-auth: 'false'
         # Wildcard is configured by default
         configureCertmanager: false
@@ -119,6 +119,7 @@ spec:
         #             https://goauthentik.io/integrations/services/gitlab/
         omniauth:
           enabled: true
+          autoSignInWithProvider: 'saml'
           allowSingleSignOn: ['saml']
           syncProfileFromProvider: ['saml']
           syncProfileAttributes: ['email']
