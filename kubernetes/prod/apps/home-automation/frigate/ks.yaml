@@ -9,7 +9,7 @@ spec:
   commonMetadata:
     labels:
       app.kubernetes.io/name: *appname
-  targetNamespace: home
+  targetNamespace: home-automation
   path: ./kubernetes/prod/apps/home-automation/frigate/app
   sourceRef:
     kind: GitRepository
