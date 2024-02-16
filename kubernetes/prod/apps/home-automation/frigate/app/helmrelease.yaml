@@ -86,19 +86,19 @@ spec:
     ingress:
       main:
         enabled: false
-        className: internal-nginx
-        annotations:
-          nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16"
-        hosts:
-          - host: &host "frigate.monosense.io"
-            paths:
-              - path: /
-                service:
-                  name: main
-                  port: http
-        tls:
-          - hosts:
-              - *host
+        # className: internal-nginx
+        # annotations:
+        #   nginx.ingress.kubernetes.io/whitelist-source-range: "10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16"
+        # hosts:
+        #   - host: &host "frigate.monosense.io"
+        #     paths:
+        #       - path: /
+        #         service:
+        #           name: main
+        #           port: http
+        # tls:
+        #   - hosts:
+        #       - *host
 
     persistence:
       config:

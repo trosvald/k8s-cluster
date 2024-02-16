@@ -86,7 +86,7 @@ cameras:
           input_args: preset-rtsp-restream
           roles:
             - record
-        - path: rtsp://127.0.0.1:8554/ipc01
+        - path: rtsp://127.0.0.1:8554/ipc01_substream
           input_args: preset-rtsp-restream
           roles:
             - detect
