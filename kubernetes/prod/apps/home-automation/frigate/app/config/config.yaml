@@ -2,8 +2,8 @@
 mqtt:
   host: mattermost.monosense.io
   topic_prefix: frigate
-  admin: "${FRIGATE_MQTT_USERNAME}"
-  password: "${FRIGATE_MQTT_PASSWORD}"
+  user: "{{ .frigate_mqtt_user }}"
+  password: "{{ .frigate_mqtt_pass }}"
 
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "info"]
@@ -63,17 +63,17 @@ snapshots:
 go2rtc:
   streams:
     ipc01:
-      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@ipc01.monosense.io:554/cam/realmonitor?channel=1?subtype=1
+      - rtsp://admin:{{ .frigate_rstp_password }}@ipc01.monosense.io:554/cam/realmonitor?channel=1?subtype=1
     ipc01_substream:
-      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@ipc01.monosense.io:554/cam/realmonitor?channel=1?subtype=0
+      - rtsp://admin:{{ .frigate_rstp_password }}@ipc01.monosense.io:554/cam/realmonitor?channel=1?subtype=0
     ipc02:
-      - rtsp:/admin:{FRIGATE_RTSP_PASSWORD}@ipc02.monosense.io:554/cam/realmonitor?channel=1?subtype=1
+      - rtsp:/admin:{{ .frigate_rstp_password }}@ipc02.monosense.io:554/cam/realmonitor?channel=1?subtype=1
     ipc02_substream:
-      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@ipc02.monosense.io:554/cam/realmonitor?channel=1?subtype=0
+      - rtsp://admin:{{ .frigate_rstp_password }}@ipc02.monosense.io:554/cam/realmonitor?channel=1?subtype=0
     # ipc03:
-    #   - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@ipc03.monosense.io:554/cam/realmonitor?channel=1?subtype=1
+    #   - rtsp://admin:{{ .frigate_rstp_password }}@ipc03.monosense.io:554/cam/realmonitor?channel=1?subtype=1
     # ipc03_substream:
-    #   - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@ipc03.monosense.io:554/cam/realmonitor?channel=1?subtype=0
+    #   - rtsp://admin:{{ .frigate_rstp_password }}@ipc03.monosense.io:554/cam/realmonitor?channel=1?subtype=0
 
 cameras:
   ipc01:
