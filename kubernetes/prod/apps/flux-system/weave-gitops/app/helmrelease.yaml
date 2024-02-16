@@ -47,6 +47,8 @@ spec:
     ingress:
       enabled: true
       className: internal-nginx
+      annotations:
+        nginx.ingress.kubernetes.io/custom-http-errors: "418"
       hosts:
         - host: "${HOSTNAME}"
           paths:
