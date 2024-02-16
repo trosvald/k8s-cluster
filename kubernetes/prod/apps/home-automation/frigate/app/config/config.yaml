@@ -32,7 +32,6 @@ record:
     days: 8
     mode: all
   events:
-    max_seconds: 300
     pre_capture: 5
     post_capture: 5
     objects:
