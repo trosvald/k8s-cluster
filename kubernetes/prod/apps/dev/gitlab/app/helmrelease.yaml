@@ -178,10 +178,10 @@ spec:
             enabled: true
             schedule: "@daily"
             extraArgs: "--s3tool awscli --aws-s3-endpoint-url https://s3.monosense.io:9000"
-          # objectStorage:
-          #   config:
-          #     secret: s3cmd-secret
-          #     key: local
+          objectStorage:
+            config:
+              secret: s3cmd-secret
+              key: local
       # gitlab-pages:
       #   # The default requests are massive for a static server
       #   resources:
