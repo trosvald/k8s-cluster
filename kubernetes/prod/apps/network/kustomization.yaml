@@ -14,5 +14,5 @@ resources:
   - ./s3-proxy/ks.yaml
   - ./chat-proxy/ks.yaml
   - ./hassio-proxy/ks.yaml
-  # - ./gitlab-proxy/ks.yaml
   - ./emqx-proxy/ks.yaml
+  - ./frigate-proxy/ks.yaml
