@@ -1,0 +1,120 @@
+---
+mqtt:
+  host: mattermost.monosense.io
+  topic_prefix: frigate
+  user: {{ .frigate_mqtt_user }}
+  password: {{ .frigate_mqtt_pass }}
+database:
+  path: /config/frigate.db
+
+detectors:
+  coral:
+    type: edgetpu
+    device: usb
+
+birdseye:
+  enabled: true
+  # restream: true
+  mode: continuous
+
+ffmpeg:
+  hwaccel_args: preset-intel-qsv-h264
+  output_args:
+    record: preset-record-generic-audio-aac
+
+objects:
+  track:
+    - person
+    - cat
+  filters:
+    person:
+      min_area: 3000
+      max_area: 100000
+      threshold: 0.75
+    cat:
+      min_area: 1000
+      max_area: 10000
+      threshold: 0.75
+
+record:
+  enabled: true
+  retain:
+    days: 3
+    mode: all
+  events:
+    retain:
+      default: 14
+      mode: active_objects
+
+snapshots:
+  enabled: true
+  timestamp: false
+  bounding_box: true
+  crop: false
+  retain:
+    default: 7
+
+go2rtc:
+  streams:
+    ipc01_detect:
+      - rtsp://{{ .frigate_rtsp_user }}:{{ .frigate_rtsp_pass }}@ipc01.monosense.io:554/cam/realmonitor?channel=1&subtype=1
+    ipc01_record:
+      - rtsp://{{ .frigate_rtsp_user }}:{{ .frigate_rtsp_pass }}@ipc01.monosense.io:554/cam/realmonitor?channel=1&subtype=0
+      - "ffmpeg:ipc01_record#audio=aac"
+    # ipc02_detect:
+    #   - rtsp://{{ .frigate_rtsp_user }}:{{ .frigate_rtsp_pass }}@ipc02.monosense.io:554/cam/realmonitor?channel=1&subtype=1
+    # ipc02_record:
+    #   - rtsp://{{ .frigate_rtsp_user }}:{{ .frigate_rtsp_pass }}@ipc02.monosense.io:554/cam/realmonitor?channel=1&subtype=0
+    #   - "ffmpeg:front_record#audio=aac"
+    # ipc03_detect:
+    #   - rtsp://view:{FRIGATE_RTSP_PASSWORD}@front:554/cam/realmonitor?channel=1&subtype=1
+    # ipc03_record:
+    #   - rtsp://view:{FRIGATE_RTSP_PASSWORD}@front:554/cam/realmonitor?channel=1&subtype=0
+    #   - "ffmpeg:front_record#audio=aac"
+
+ui:
+  live_mode: mse
+
+cameras:
+  ipc01:
+    ffmpeg:
+      inputs:
+        - path: rtsp://127.0.0.1:8554/ipc01_detect
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+        - path: rtsp://127.0.0.1:8554/ipc01_record
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+      detect:
+        height: 480
+        width: 704
+        fps: 5
+      objects:
+        filters:
+          person:
+            min_area: 1500
+            max_area: 100000
+            threshold: 0.75
+            min_score: 0.60
+      live:
+        stream_name: ipc01_record
+
+  # ipc02:
+  #   ffmpeg:
+  #     inputs:
+  #       - path: rtsp://127.0.0.1:8554/ipc02_detect
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - detect
+  #       - path: rtsp://127.0.0.1:8554/ipc02_record
+  #         input_args: preset-rtsp-restream
+  #         roles:
+  #           - record
+  #     detect:
+  #       height: 480
+  #       width: 704
+  #       fps: 5
+  #     live:
+  #       stream_name: ipc02_record
