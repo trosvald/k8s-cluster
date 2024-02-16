@@ -64,13 +64,13 @@ snapshots:
 go2rtc:
   streams:
     ipc01:
-      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@172.16.14.101:554/cam/realmonitor?channel=1?subtype=1
-    ipc01_substream:
       - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@172.16.14.101:554/cam/realmonitor?channel=1?subtype=0
+    ipc01_substream:
+      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@172.16.14.101:554/cam/realmonitor?channel=1?subtype=1
     ipc02:
-      - rtsp:/admin:{FRIGATE_RTSP_PASSWORD}@172.16.14.102:554/cam/realmonitor?channel=1?subtype=1
+      - rtsp:/admin:{FRIGATE_RTSP_PASSWORD}@172.16.14.102:554/cam/realmonitor?channel=1?subtype=0
     ipc02_substream:
-      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@i72.16.14.102:554/cam/realmonitor?channel=1?subtype=0
+      - rtsp://admin:{FRIGATE_RTSP_PASSWORD}@i72.16.14.102:554/cam/realmonitor?channel=1?subtype=1
     # ipc03:
     #   - rtsp://admin:{FRIGATE_RTSP_PASSWORD}ipc03.monosense.io:554/cam/realmonitor?channel=1&subtype=0&unicast=true&proto=Onvif
     # ipc03_substream:
