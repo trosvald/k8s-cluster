@@ -19,7 +19,7 @@ spec:
     fullnameOverride: nginx-external
 
     tcp:
-      "22": "dev/gitlab-shell:22"
+      "22": "dev/gitlab-gitlab-shell:22"
 
     controller:
       replicaCount: 3
