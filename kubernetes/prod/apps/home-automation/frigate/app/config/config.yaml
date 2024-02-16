@@ -2,8 +2,8 @@
 mqtt:
   host: mattermost.monosense.io
   topic_prefix: frigate
-  user: {{ .frigate_mqtt_user }}
-  password: {{ .frigate_mqtt_pass }}
+  user: frigate
+  password: 4vJriMNki3yfsfAMTTrttUsVzn2bQJK3
 database:
   path: /config/frigate.db
 
