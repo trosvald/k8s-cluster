@@ -7,7 +7,7 @@ resources:
   - ./networkpolicy.yaml
   # Flux-Kustomizations
   # - ./esphome/ks.yaml
-  # - ./frigate/ks.yaml
+  - ./frigate/ks.yaml
   # - ./home-assistant/ks.yaml
   # - ./mqtt/ks.yaml
   # - ./music-assistant/ks.yaml
