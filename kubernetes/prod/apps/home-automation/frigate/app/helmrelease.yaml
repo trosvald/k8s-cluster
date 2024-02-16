@@ -68,6 +68,13 @@ spec:
           nodeSelector:
             google.feature.node.kubernetes.io/coral: "true"
             intel.feature.node.kubernetes.io/gpu: "true"
+          annotations:
+            k8s.v1.cni.cncf.io/networks: |
+              [{
+                "name":"multus-cctv",
+                "namespace": "network",
+                "ips": ["172.16.14.1/24"]
+              }]
     service:
       main:
         ports:
