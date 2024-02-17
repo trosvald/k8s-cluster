@@ -61,7 +61,7 @@ spec:
         path: /
         pathType: Prefix
         hosts:
-          - &host "emqx.monosense.io"
+          - &host "mqtt-ui.monosense.io"
         tls:
           - hosts:
               - *host
