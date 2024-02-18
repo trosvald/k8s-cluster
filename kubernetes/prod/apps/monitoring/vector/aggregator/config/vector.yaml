@@ -34,7 +34,7 @@ sources:
       codec: json
     host_key: __host
 
-  vyos_syslog:
+  vyos_syslogs:
     address: 0.0.0.0:6003
     type: syslog
     mode: tcp
@@ -79,7 +79,7 @@ transforms:
   vyos_firewall_route:
     type: route
     inputs:
-      - vyos_syslog
+      - vyos_syslogs
     route:
       firewall: |
         .facility == "kern" && match!(.message, r'^\[(.*?)\].(.*)')
