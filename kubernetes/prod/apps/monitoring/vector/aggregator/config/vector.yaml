@@ -28,7 +28,7 @@ sources:
   talos_service_logs:
     address: 0.0.0.0:6002
     type: socket
-    mode: udp
+    # mode: udp
     max_length: 102400
     decoding:
       codec: json
@@ -133,7 +133,7 @@ sinks:
     type: loki
     inputs:
       - kubernetes_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
     encoding:
       codec: json
     batch:
@@ -151,7 +151,7 @@ sinks:
     type: loki
     inputs:
       - talos_kernel_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
     encoding:
       codec: json
       except_fields:
@@ -168,7 +168,7 @@ sinks:
     type: loki
     inputs:
       - talos_service_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
     encoding:
       codec: json
       except_fields:
@@ -186,7 +186,7 @@ sinks:
     inputs:
       - vyos_firewall_wan_route._unmatched
       - vyos_firewall_geoip_remap
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
     encoding:
       codec: json
     out_of_order_action: rewrite_timestamp
