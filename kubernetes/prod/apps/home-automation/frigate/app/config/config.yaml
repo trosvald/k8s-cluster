@@ -91,24 +91,24 @@ cameras:
           roles:
             - detect
     detect:
-      fps: 25
-      width: 2560
-      height: 1440
+      fps: 10
+      width: 704
+      height: 480
 
-  # ipc02:
-  #   ffmpeg:
-  #     output_args:
-  #       record: preset-record-generic-audio-copy
-  #     inputs:
-  #       - path: rtsp://127.0.0.1:8554/ipc02
-  #         input_args: preset-rtsp-restream
-  #         roles:
-  #           - record
-  #       - path: rtsp://127.0.0.1:8554/ipc02_substream
-  #         input_args: preset-rtsp-restream
-  #         roles:
-  #           - detect
-  #   detect:
-  #     fps: 10
-  #     width: 704
-  #     height: 480
+  ipc02:
+    ffmpeg:
+      output_args:
+        record: preset-record-generic-audio-copy
+      inputs:
+        - path: rtsp://127.0.0.1:8554/ipc02
+          input_args: preset-rtsp-restream
+          roles:
+            - record
+        - path: rtsp://127.0.0.1:8554/ipc02_substream
+          input_args: preset-rtsp-restream
+          roles:
+            - detect
+    detect:
+      fps: 10
+      width: 704
+      height: 480
