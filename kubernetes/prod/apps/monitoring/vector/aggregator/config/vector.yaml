@@ -28,7 +28,7 @@ sources:
   talos_service_logs:
     address: 0.0.0.0:6002
     type: socket
-    # mode: udp
+    mode: udp
     max_length: 102400
     decoding:
       codec: json
