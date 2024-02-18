@@ -147,7 +147,7 @@ spec:
                     {{- include "loki.writeSelectorLabels" . | nindent 12 }}
                 topologyKey: kubernetes.io/hostname
       persistence:
-        size: 40Gi
+        size: 80Gi
         storageClass: truenas-iscsi-hdd
     backend:
       replicas: 3
