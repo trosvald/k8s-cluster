@@ -34,10 +34,10 @@ sources:
       codec: json
     host_key: __host
 
-  vyos_syslogs:
-    address: 0.0.0.0:6003
-    type: syslog
-    mode: tcp
+  # vyos_syslogs:
+  #   address: 0.0.0.0:6003
+  #   type: syslog
+  #   mode: tcp
 
 transforms:
   kubernetes_transform:
