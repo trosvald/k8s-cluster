@@ -99,7 +99,6 @@ spec:
           vyossyslog:
             enabled: true
             port: 6003
-            protocol: TCP
     serviceAccount:
       create: true
       name: *app
