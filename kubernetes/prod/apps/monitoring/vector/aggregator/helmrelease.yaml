@@ -30,7 +30,7 @@ spec:
         replicas: 2
         strategy: RollingUpdate
         annotations:
-          reloader.stakater.com/auto: "true"
+          configmap.reloader.stakater.com/reload: &configmap vector-aggregator-configmap
         initContainers:
           init-geoip:
             image:
