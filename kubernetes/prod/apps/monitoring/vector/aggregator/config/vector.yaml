@@ -188,7 +188,6 @@ sinks:
     endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
     encoding:
       codec: json
-    batch:
     out_of_order_action: rewrite_timestamp
     labels:
       node: "{{ host }}"
