@@ -34,7 +34,7 @@ sources:
       codec: json
     host_key: __host
 
-  vyos_syslogs:
+  vyos_syslog:
     address: 0.0.0.0:6003
     type: syslog
     mode: tcp
