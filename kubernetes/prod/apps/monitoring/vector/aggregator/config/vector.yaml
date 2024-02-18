@@ -34,10 +34,11 @@ sources:
       codec: json
     host_key: __host
 
-  vyos_syslog:
-    type: syslog
-    mode: tcp
+  unifi_kernel_logs:
     address: 0.0.0.0:6003
+    type: syslog
+    mode: udp
+    max_length: 102400
 
 transforms:
   kubernetes_transform:
@@ -76,64 +77,19 @@ transforms:
       r8 = replace(r7, r'172.*', "talos")
       .node = r8
 
-  # [ipv4-iot-local-default-D]IN=bond0.1613 OUT= MAC=ff:ff:ff:ff:ff:ff:10:d5:61:31:71:e8:08:00 SRC=172.16.13.109 DST=255.255.255.255 LEN=200 TOS=0x00 PREC=0x00 TTL=255 ID=40901 PROTO=UDP SPT=64216 DPT=6667 LEN=180 
-  vyos_firewall_route:
-    type: route
-    inputs:
-      - vyos_syslog
-    route:
-      firewall: |
-        .facility == "kern" && match!(.message, r'^\[(.*?)\].(.*)')
-  
-  vyos_firewall_remap:
+  unifi_kernel_transform:
     type: remap
     inputs:
-      - vyos_firewall_route.firewall
-    source: |
-      # Parse firewall rule message
-      split_message, split_err = parse_regex(.message, r'^\[.*\].\[(?P<rule>.*?)\](?P<fields>.*)')
-      if split_err != null {
-          abort
-      }
-      # Extract separate fields from message
-      split_message.fields, split_err = strip_whitespace(split_message.fields)
-      if split_err != null {
-          abort
-      }
-      .message, parse_err = parse_key_value(split_message.fields, whitespace: "strict")
-      if parse_err != null {
-          abort
-      }
-      # Add more information about the triggered rule
-      .message.RULE, parse_err = parse_regex(split_message.rule, r'^ipv4-(?P<from_zone>\w+)-(?P<to_zone>\w+)-(?P<id>\w+)-(?P<action>\w+)$')
-      if parse_err != null {
-          abort
-      }
-
-  vyos_firewall_wan_route:
-    type: route
-    inputs:
-      - vyos_firewall_remap
-    route:
-      from_wan: .message.RULE.from_zone == "wan"
-
-  vyos_firewall_geoip_remap:
-    type: remap
-    inputs:
-      - vyos_firewall_wan_route.from_wan
-    source: |
-      .geoip = get_enrichment_table_record!(
-          "geoip_table", {
-              "ip": .message.SRC
-          }
-      )
+      - unifi_kernel_logs
+    source: |-
+      .timestamp = now()
 
 sinks:
   kubernetes:
     type: loki
     inputs:
       - kubernetes_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
     encoding:
       codec: json
     batch:
@@ -151,7 +107,7 @@ sinks:
     type: loki
     inputs:
       - talos_kernel_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
     encoding:
       codec: json
       except_fields:
@@ -168,7 +124,7 @@ sinks:
     type: loki
     inputs:
       - talos_service_transform
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
     encoding:
       codec: json
       except_fields:
@@ -180,15 +136,18 @@ sinks:
       node: "{{ node }}"
       talos_service: '{{ "talos-service" }}'
       namespace: "talos:service"
-  
-  loki_vyos:
+
+  unifi_kernel:
     type: loki
     inputs:
-      - vyos_firewall_wan_route._unmatched
-      - vyos_firewall_geoip_remap
-    endpoint: http://loki-gateway.monitoring.svc.cluster.local:80
+      - unifi_kernel_transform
+    endpoint: http://loki-gateway.monitoring.svc.cluster.local.:80
     encoding:
       codec: json
+    batch:
+      max_bytes: 524288
     out_of_order_action: rewrite_timestamp
     labels:
-      hostname: "{{ host }}"
+      node: "{{ host }}"
+      facility: "{{ facility }}"
+      namespace: "unifi:kernel"

@@ -96,9 +96,10 @@ spec:
             enabled: true
             port: 6002
             protocol: UDP
-          vyos-syslog:
+          unifikernel:
             enabled: true
             port: 6003
+            protocol: UDP
     serviceAccount:
       create: true
       name: *app
