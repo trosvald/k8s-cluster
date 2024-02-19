@@ -17,3 +17,16 @@ spec:
         - ports:
             - port: "1883"
               protocol: TCP
+  ingress:
+    - fromEntities:
+        - world
+      toPorts:
+        - ports:
+            - port: "5000"
+              protocol: TCP
+        - ports:
+            - port: "8554"
+              protocol: TCP
+        - ports:
+            - port: "1935"
+              protocol: TCP
