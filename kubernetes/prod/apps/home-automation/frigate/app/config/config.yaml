@@ -1,6 +1,6 @@
 ---
 mqtt:
-  host: mattermost.monosense.io
+  host: 10.10.10.7
   topic_prefix: frigate
   user: "{{ .frigate_mqtt_user }}"
   password: "{{ .frigate_mqtt_pass }}"
