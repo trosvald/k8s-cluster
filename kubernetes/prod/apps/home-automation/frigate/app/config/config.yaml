@@ -18,6 +18,8 @@ detectors:
 
 logger:
   default: info
+  log:
+    frigate.comms.mqtt: debug
 
 database:
   path: /data/frigate.db
