@@ -17,7 +17,7 @@ detectors:
     device: usb
 
 logger:
-  default: debug
+  default: info
 
 database:
   path: /data/frigate.db
