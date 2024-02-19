@@ -2,8 +2,8 @@
 mqtt:
   host: 10.10.10.7
   topic_prefix: frigate
-  user: frigate
-  password: 4vJriMNki3yfsfAMTTrttUsVzn2bQJK3
+  user: "frigate"
+  password: "4vJriMNki3yfsfAMTTrttUsVzn2bQJK3"
 
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "info"]
