@@ -85,7 +85,7 @@ spec:
 
     ingress:
       main:
-        enabled: false
+        enabled: true
         className: internal-nginx
         hosts:
           - host: &host "cctv.monosense.io"
