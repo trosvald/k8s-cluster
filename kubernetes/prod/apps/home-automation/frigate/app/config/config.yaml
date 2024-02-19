@@ -1,9 +1,9 @@
 ---
 mqtt:
-  host: 10.10.10.7
+  host: mattermost.monosense.io
   topic_prefix: frigate
-  user: "frigate"
-  password: "4vJriMNki3yfsfAMTTrttUsVzn2bQJK3"
+  user: "tasmota"
+  password: "B@nt@rG3b@ng2023"
 
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "info"]
@@ -92,8 +92,8 @@ cameras:
             - detect
     detect:
       fps: 10
-      width: 704
-      height: 480
+      width: 1280
+      height: 720
 
   ipc02:
     ffmpeg:
