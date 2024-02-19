@@ -1,9 +1,9 @@
 ---
 mqtt:
-  host: mattermost.monosense.io
+  host: mqtt-emqx-headless.home-automation.svc.cluster.local
   topic_prefix: frigate
-  user: "tasmota"
-  password: "B@nt@rG3b@ng2023"
+  user: "{FRIGATE_MQTT_USERNAME}"
+  password: "{FRIGATE_MQTT_PASSWORD}"
 
 ffmpeg:
   global_args: ["-hide_banner", "-loglevel", "info"]
