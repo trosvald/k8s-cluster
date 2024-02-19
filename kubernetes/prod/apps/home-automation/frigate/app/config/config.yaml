@@ -1,6 +1,6 @@
 ---
 mqtt:
-  host: mqtt-emqx-headless.home-automation.svc.cluster.local
+  host: 10.10.10.7
   topic_prefix: frigate
   user: "{FRIGATE_MQTT_USERNAME}"
   password: "{FRIGATE_MQTT_PASSWORD}"
@@ -17,9 +17,7 @@ detectors:
     device: usb
 
 logger:
-  default: info
-  log:
-    frigate.comms.mqtt: debug
+  default: debug
 
 database:
   path: /data/frigate.db
