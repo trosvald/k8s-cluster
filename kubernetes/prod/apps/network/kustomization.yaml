@@ -15,4 +15,4 @@ resources:
   - ./chat-proxy/ks.yaml
   - ./hassio-proxy/ks.yaml
   - ./emqx-proxy/ks.yaml
-  - ./frigate-proxy/ks.yaml
+  # - ./frigate-proxy/ks.yaml
