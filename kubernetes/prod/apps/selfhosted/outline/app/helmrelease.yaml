@@ -65,9 +65,9 @@ spec:
               limits:
                 memory: 1024Mi
         pod:
-          labels:
-            egress.home.arpa/minio: allow
-            ingress.home.arpa/lan: allow
+          # labels:
+          #   egress.home.arpa/minio: allow
+          #   ingress.home.arpa/lan: allow
           topologySpreadConstraints:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
