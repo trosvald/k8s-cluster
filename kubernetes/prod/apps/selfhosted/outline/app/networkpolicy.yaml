@@ -1,0 +1,20 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: outline
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: outline
+  egress:
+    # database
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: cloudnative-pg-cluster
+            k8s:io.kubernetes.pod.namespace: database
+      toPorts:
+        - ports:
+            - port: "5432"
+              protocol: TCP
