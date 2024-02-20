@@ -67,6 +67,7 @@ spec:
         pod:
           labels:
             egress.home.arpa/minio: allow
+            ingress.home.arpa/lan: allow
           topologySpreadConstraints:
             - maxSkew: 1
               topologyKey: kubernetes.io/hostname
