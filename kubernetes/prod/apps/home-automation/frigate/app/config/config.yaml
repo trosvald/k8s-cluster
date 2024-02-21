@@ -91,7 +91,7 @@ cameras:
           roles:
             - detect
     detect:
-      fps: 10
+      fps: 5
       width: 1280
       height: 720
 
@@ -109,6 +109,6 @@ cameras:
           roles:
             - detect
     detect:
-      fps: 10
+      fps: 5
       width: 704
       height: 480
