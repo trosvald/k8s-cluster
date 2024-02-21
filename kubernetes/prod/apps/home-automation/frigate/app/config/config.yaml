@@ -92,8 +92,8 @@ cameras:
             - detect
     detect:
       fps: 5
-      width: 1280
-      height: 720
+      width: 704
+      height: 480
 
   ipc02:
     ffmpeg:
