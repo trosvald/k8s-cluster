@@ -14,8 +14,8 @@ jobs:
 
   changed-files:
     name: Changed Files
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
@@ -40,8 +40,8 @@ jobs:
 
   flux-diff:
     name: Flux Diff
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     needs: ["changed-files"]
     permissions:
       pull-requests: write
