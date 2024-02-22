@@ -14,8 +14,8 @@ concurrency:
 jobs:
   changed-files:
     name: Get Changed Files
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
@@ -39,8 +39,8 @@ jobs:
 
   extract-images:
     name: Extract Images
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     needs:
       - changed-files
     if: ${{ needs.changed-files.outputs.matrix != '[]' }}
@@ -121,8 +121,8 @@ jobs:
 
   test-images:
     name: Test images from Helm Release
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     needs:
       - "extract-images"
     if: ${{ needs.extract-images.outputs.matrix != '[null]' }}
@@ -140,8 +140,8 @@ jobs:
       - test-images
     if: ${{ always() }}
     name: Test images from Helm Release successful
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     steps:
       - name: Check matrix status
         if: >-
