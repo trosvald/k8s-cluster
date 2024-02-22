@@ -1,7 +1,6 @@
 {
   $schema: "https://docs.renovatebot.com/renovate-schema.json",
   extends: [
-    extends: [
     "github>trosvald/renovate-config",
     "github>trosvald/renovate-config:automerge-github-actions",
     "github>trosvald/home-ops//.github/renovate/allowedVersions.json5",
