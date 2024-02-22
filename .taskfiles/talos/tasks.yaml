@@ -4,7 +4,7 @@ version: "3"
 vars:
   DOMAIN: "monosense.io"
   # renovate: datasource=github-releases depName=siderolabs/talos
-  TALOS_VERSION: "1.6.4"
+  TALOS_VERSION: "1.6.5"
   # renovate: datasource=github-releases depName=siderolabs/kubelet
   KUBERNETES_VERSION: "1.29.2"
 
