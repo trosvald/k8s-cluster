@@ -47,5 +47,5 @@ jobs:
           flux \
             --context "${{ matrix.cluster }}" \
             --namespace flux-system \
-            reconcile ks production \
+            reconcile ks prod \
             --with-source
