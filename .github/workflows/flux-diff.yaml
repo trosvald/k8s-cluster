@@ -39,8 +39,8 @@ jobs:
 
   flux-diff:
     name: Flux Diff
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    # runs-on: arc-runner-set-k8s-cluster
     needs:
       - changed-files
     permissions:
