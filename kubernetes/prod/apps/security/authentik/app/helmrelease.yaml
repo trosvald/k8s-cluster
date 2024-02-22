@@ -29,7 +29,7 @@ spec:
         type: RollingUpdate
       envFrom:
         - secretRef:
-            name: authentik-secret
+            name: &secret authentik-secret
     authentik:
       log_level: info
       # redis:
