@@ -1,30 +1,29 @@
 ---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: "Flux Diff"
 
 on:
   pull_request:
-    branches: ["main"]
-    # paths: [kubernetes/**]
+    branches:
+      - main
 
 concurrency:
   group: ${{ github.ref }}-${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
-
   changed-files:
-    name: Changed Files
+    name: Get Changed Files
     runs-on: ubuntu-latest
-    # runs-on: arc-runner-set-k8s-cluster
     outputs:
       matrix: ${{ steps.changed-files.outputs.all_changed_and_modified_files }}
     steps:
-      - name: Checkout Default Branch
+      - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get Changed Files
+      - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v42
         with:
@@ -35,14 +34,15 @@ jobs:
           quotepath: false
           escape_json: false
 
-      - name: List All Changed Files
+      - name: List all changed files
         run: echo "${{ steps.changed-files.outputs.all_changed_and_modified_files }}"
 
   flux-diff:
     name: Flux Diff
-    runs-on: ubuntu-latest
-    # runs-on: arc-runner-set-k8s-cluster
-    needs: ["changed-files"]
+    # runs-on: ubuntu-latest
+    runs-on: arc-runner-set-k8s-cluster
+    needs:
+      - changed-files
     permissions:
       pull-requests: write
     if: ${{ needs.changed-files.outputs.matrix != '[]' }}
@@ -77,7 +77,6 @@ jobs:
         id: diff
         with:
           sources: k8s-cluster
-          # live-branch: main
           path: "${{ matrix.paths }}"
           resource: "${{ matrix.resources }}"
 
@@ -98,7 +97,8 @@ jobs:
       - flux-diff
     if: ${{ always() }}
     name: Flux Diff successful
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: arc-runner-set-k8s-cluster
     steps:
       - name: Check matrix status
         if: >-

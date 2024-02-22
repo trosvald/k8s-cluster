@@ -1,7 +1,8 @@
 ---
-name: "Meta: Labeler"
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Meta - Labeler
 
-on: # yamllint disable-line rule:truthy
+on:
   pull_request:
     branches:
       - main
@@ -9,18 +10,18 @@ on: # yamllint disable-line rule:truthy
 jobs:
   labeler:
     name: Labeler
-    # runs-on: ubuntu-latest
-    runs-on: arc-runner-set-k8s-cluster
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     steps:
       - name: Generate Token
         uses: actions/create-github-app-token@v1
         id: app-token
         with:
-          app-id: "${{ secrets.TROSVALD_APP_ID }}"
-          private-key: "${{ secrets.TROSVALD_APP_PRIVATE_KEY }}"
+          app-id: ${{ secrets.TROSVALD_APP_ID }}
+          private-key: ${{ secrets.TROSVALD_APP_PRIVATE_KEY }}
 
       - name: Labeler
         uses: actions/labeler@v5
         with:
-          configuration-path: .github/labeler.yaml
           repo-token: "${{ steps.app-token.outputs.token }}"
+          configuration-path: .github/labeler.yaml

@@ -1,10 +1,20 @@
 {
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
   packageRules: [
     {
-      description: "Lock version to cluster version",
-      matchDatasources: ["docker", "github-releases"],
-      allowedVersions: "<=1.29",
-      matchPackageNames: ["kubernetes/kubernetes", "siderolabs/kubelet"],
-    }
-  ]
+      matchDatasources: ["docker"],
+      matchPackageNames: ["ghcr.io/linuxserver/calibre-web"],
+      allowedVersions: "<1",
+    },
+    {
+      matchDatasources: ["docker"],
+      matchPackageNames: ["tomsquest/docker-radicale"],
+      allowedVersions: "/^[0-9]+\\.[0-9]+\\.[0-9]+(\\.[0-9]+)?$/",
+    },
+    {
+      matchDatasources: ["docker"],
+      matchPackageNames: ["docker.io/kopia/kopia"],
+      allowedVersions: "<999",
+    },
+  ],
 }
