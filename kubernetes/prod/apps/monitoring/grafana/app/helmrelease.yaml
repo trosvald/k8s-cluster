@@ -236,7 +236,7 @@ spec:
             disableDeletion: false
             editable: true
             options:
-              path: /var/lib/grafana/dashboards/prometheus
+              path: /var/lib/grafana/dashboards/monitoring
 
           - name: thanos
             orgId: 1
