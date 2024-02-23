@@ -8,7 +8,7 @@ x-task-vars: &task-vars
   jobName: "{{.jobName}}"
 
 vars:
-  rookScriptsDir: '{{.ROOT_DIR}}/.taskfiles/rook/scripts'
+  sharedScriptsDir: '{{.ROOT_DIR}}/.taskfiles/shared'
   rookTemplatesDir: '{{.ROOT_DIR}}/.taskfiles/rook/templates'
   ts: '{{now | date "150405"}}'
 
@@ -98,7 +98,7 @@ tasks:
     internal: true
     cmds:
       - envsubst < <(cat {{.rookTemplatesDir}}/WipeDiskJob.tmpl.yaml) | kubectl apply -f -
-      - bash {{.rookScriptsDir}}/wait.sh "{{.jobName}}" default
+      - bash {{.sharedScriptsDir}}/wait.sh "{{.jobName}}" default
       - kubectl -n default wait job/{{.jobName}} --for condition=complete --timeout=1m
       - kubectl -n default logs job/{{.jobName}}
       - kubectl -n default delete job {{.jobName}}
@@ -108,7 +108,7 @@ tasks:
       jobName: 'wipe-disk-{{- .node -}}-{{- .ts -}}'
     env: *task-vars
     preconditions:
-      - sh: test -f {{.rookScriptsDir}}/wait.sh
+      - sh: test -f {{.sharedScriptsDir}}/wait.sh
       - sh: test -f {{.rookTemplatesDir}}/WipeDiskJob.tmpl.yaml
 
   wipe-data:
@@ -117,7 +117,7 @@ tasks:
     internal: true
     cmds:
       - envsubst < <(cat {{.rookTemplatesDir}}/WipeRookDataJob.tmpl.yaml) | kubectl apply -f -
-      - bash {{.rookScriptsDir}}/wait.sh "{{.jobName}}" default
+      - bash {{.sharedScriptsDir}}/wait.sh "{{.jobName}}" default
       - kubectl -n default wait job/{{.jobName}} --for condition=complete --timeout=1m
       - kubectl -n default logs job/{{.jobName}}
       - kubectl -n default delete job {{.jobName}}
@@ -126,5 +126,5 @@ tasks:
       jobName: 'wipe-rook-data-{{- .node -}}-{{- .ts -}}'
     env: *task-vars
     preconditions:
-      - sh: test -f {{.rookScriptsDir}}/wait.sh
+      - sh: test -f {{.sharedScriptsDir}}/wait.sh
       - sh: test -f {{.rookTemplatesDir}}/WipeRookDataJob.tmpl.yaml
