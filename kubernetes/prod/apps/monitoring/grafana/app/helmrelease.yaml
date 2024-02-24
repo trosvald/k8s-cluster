@@ -342,11 +342,11 @@ spec:
           gnetId: 15760
           revision: 26
           datasource: Prometheus
-        k8s-volumes:
-          # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
-          gnetId: 11454
-          revision: 14
-          datasource: Prometheus
+        # k8s-volumes:
+        #   # renovate: dashboardName="K8s / Storage / Volumes / Cluster"
+        #   gnetId: 11454
+        #   revision: 14
+        #   datasource: Prometheus
 
       nginx:
         nginx:
