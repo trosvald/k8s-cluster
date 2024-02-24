@@ -1,8 +1,19 @@
 ---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/main/ocirepository-source-v1beta2.json
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: OCIRepository
+metadata:
+  name: oci-terraform-minio
+spec:
+  interval: 1m
+  url: oci://ghcr.io/trosvald/terraform/minio
+  ref:
+    tag: main
+---
 apiVersion: infra.contrib.fluxcd.io/v1alpha2
 kind: Terraform
 metadata:
-  name: tf-minio
+  name: minio
 spec:
   interval: 12h
   approvePlan: "auto"
@@ -10,16 +21,15 @@ spec:
     disable: true
   cliConfigSecretRef:
     name: tfe-cli-config
-  path: ./infrastructure/terraform/minio
+  path: "./"
   sourceRef:
-    kind: GitRepository
-    name: production
-    namespace: flux-system
+    kind: OCIRepository
+    name: oci-terraform-minio
   runnerPodTemplate:
     spec:
       env:
         - name: OP_CONNECT_HOST
-          value: http://onepassword-connect.monosense.io:8080
+          value: http://onepassword-connect.bjw-s.dev:8080
         - name: OP_CONNECT_TOKEN
           valueFrom:
             secretKeyRef:
@@ -33,3 +43,4 @@ spec:
         - name: tf-controller-sops-key
           secret:
             secretName: tf-controller-sops-key
+
