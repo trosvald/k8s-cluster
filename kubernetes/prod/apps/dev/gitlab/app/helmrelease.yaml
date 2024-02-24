@@ -119,7 +119,7 @@ spec:
         #             https://goauthentik.io/integrations/services/gitlab/
         omniauth:
           enabled: true
-          autoSignInWithProvider: 'saml'
+          # autoSignInWithProvider: 'saml'
           allowSingleSignOn: ['saml']
           syncProfileFromProvider: ['saml']
           syncProfileAttributes: ['email']
