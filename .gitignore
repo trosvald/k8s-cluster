@@ -24,3 +24,4 @@ Chart.lock
 .devcontainer/devcontainer.env
 # Brewfile
 Brewfile.lock.json
+patch.yaml
