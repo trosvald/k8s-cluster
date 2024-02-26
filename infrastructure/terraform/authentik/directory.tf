@@ -39,7 +39,6 @@ resource "authentik_group" "database" {
 
 resource "authentik_group" "administrator" {
   name          = "administrator"
-  users         = [authentik_user.monosense.id]
   is_superuser  = true
 }
 data "authentik_group" "admins" {
@@ -54,4 +53,12 @@ resource "authentik_user" "monosense" {
   username  = "monosense"
   name      = "Eko Purwanto"
   email     = "eko.purwanto@monosense.io"
+  groups    = [
+    authentik_group.administrator.id,
+    authentik_group.database.id,
+    authentik_group.development.id,
+    authentik_group.infrastructure.id,
+    authentik_group.media.id,
+    authentik_group.users.id
+  ] 
 }
