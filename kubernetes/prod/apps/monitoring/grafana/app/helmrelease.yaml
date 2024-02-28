@@ -246,6 +246,9 @@ spec:
               maxLines: 250
     dashboards:
       default:
+        cnpg-dashboard:
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/v1.21.0/docs/src/samples/monitoring/grafana-dashboard.json
+          datasource: Prometheus
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
           gnetId: 7587
