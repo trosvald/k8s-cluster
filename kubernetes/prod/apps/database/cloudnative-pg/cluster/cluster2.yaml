@@ -7,7 +7,7 @@ metadata:
 spec:
   instances: 3
   # imageName: ghcr.io/bo0tzz/cnpgvecto.rs:14-v0.1.10
-  imageName: tensorchord/pgvecto-rs:pg14-v0.2.0
+  imageName: docker.io/tensorchord/pgvecto-rs:pg14-v0.2.0
   enableSuperuserAccess: true
   primaryUpdateStrategy: unsupervised
   storage:
