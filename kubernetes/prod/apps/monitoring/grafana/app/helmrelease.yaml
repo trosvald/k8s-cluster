@@ -328,11 +328,6 @@ spec:
               value: Prometheus
             - name: VAR_BLOCKY_URL
               value: http:\\/\\/172.16.16.9:4000
-        # blocky-query:
-        #   url: https://raw.githubusercontent.com/0xERR0R/blocky/main/docs/blocky-query-grafana-postgres.json
-        #   datasource:
-        #     - name: DS_POSTGRES
-        #       value: Blocky
       ceph:
         ceph-cluster:
           # renovate: depName="Ceph Cluster"
