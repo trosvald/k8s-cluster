@@ -50,10 +50,10 @@ spec:
           size: 1Gi
         resources:
           requests:
-            cpu: 15m
+            cpu: 512m
             memory: 50Mi
           limits:
-            memory: 100Mi
+            memory: 512Mi
       commonConfiguration: |-
         # Enable AOF https://redis.io/topics/persistence#append-only-file
         appendonly yes
