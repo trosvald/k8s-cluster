@@ -144,6 +144,7 @@ spec:
             memory: 340M
           limits:
             cpu: 1800m
+            memory: 1024M
       webservice:
         minReplicas: 1
         maxReplicas: 2
@@ -161,6 +162,13 @@ spec:
       gitlab-shell:
         minReplicas: 1
         maxReplicas: 2
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100M
+          limits:
+            cpu: 100m
+            memory: 250M
       toolbox:
         # Reference : https://docs.gitlab.com/charts/backup-restore/backup.html#specify-s3-tool-to-use
         extraEnvFrom:
