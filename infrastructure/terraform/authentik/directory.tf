@@ -60,5 +60,5 @@ resource "authentik_user" "monosense" {
     authentik_group.infrastructure.id,
     authentik_group.media.id,
     authentik_group.users.id
-  ] 
+  ]
 }
