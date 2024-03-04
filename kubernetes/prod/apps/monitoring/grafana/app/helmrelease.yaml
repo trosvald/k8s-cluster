@@ -246,6 +246,12 @@ spec:
               maxLines: 250
     dashboards:
       default:
+        minio-dashboard:
+          # renovate: depName="Minio"
+          gnetId: 13502
+          revision: 25
+          datasource:
+            - {name: DS_PROMETHEUS, value: Prometheus}
         cnpg-dashboard:
           url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/1.22.1/docs/src/samples/monitoring/grafana-dashboard.json
           datasource: Prometheus
