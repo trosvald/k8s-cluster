@@ -3,12 +3,12 @@
 apiVersion: helm.toolkit.fluxcd.io/v2beta2
 kind: HelmRelease
 metadata:
-  name: nexus-oss
+  name: sonar-oss
 spec:
   chart:
     spec:
-      chart: nexus3
-      version: 4.40.0
+      chart: sonarqube
+      version: 5.4.1
       sourceRef:
         kind: HelmRepository
         name: stevehipwell
@@ -26,20 +26,21 @@ spec:
 
   values:
     image:
-      repository: sonatype/nexus3
-      tag: 3.65.0
+      repository: sonarqube
+      tag: 10.4.1
 
     deployment: true
 
     podSecurityContext:
-      fsGroup: 200
+      fsGroup: 1000
+
     securityContext:
-      runAsGroup: 200
-      runAsUser: 200
+      runAsGroup: 0
+      runAsUser: 1000
 
     livenessProbe:
       httpGet:
-        path: /service/rest/v1/status
+        path: /api/system/status
         port: http
       initialDelaySeconds: 60
       periodSeconds: 30
@@ -48,7 +49,7 @@ spec:
 
     readinessProbe:
       httpGet:
-        path: /service/rest/v1/status
+        path: /api/system/status
         port: http
       initialDelaySeconds: 60
       periodSeconds: 30
@@ -57,19 +58,13 @@ spec:
 
     service:
       type: ClusterIP
-      port: 8081
-
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: true
+      port: 9000
 
     ingress:
       enabled: true
-      # annotations:
       ingressClassName: internal-nginx
       hosts:
-        - &hostname repo.monosense.io
+        - &hostname sonarqube.monosense.io
       tls:
         - hosts:
             - *hostname
@@ -78,27 +73,25 @@ spec:
       enabled: true
       accessMode: ReadWriteOnce
       storageClass: ceph-block
-      size: 80Gi
+      size: 15Gi
 
     resources:
-      limits:
-        cpu: 4000m
-        memory: 8Gi
       requests:
-        cpu: 4000m
-        memory: 4Gi
+        cpu: 512m
+        memory: 1024Mi
+      limits:
+        cpu: 1000m
+        memory: 2048Mi
 
-    chownDataDir: true
+    extraInitContainers: []
 
-    envVars:
-      jvmMinHeapSize: 1024m
-      jvmMaxHeapSize: 1024m
-      jvmAdditionalMemoryOptions: "-XX:MaxDirectMemorySize=2048m"
-      jvmAdditionalOptions: ""
-
-    logback:
-      maxHistory: 30
-
-    rootPassword:
-      secret: nexus-secret
-      key: password
+    psql:
+      host: postgres-rw.database.svc.cluster.local
+      port: 5432
+      database: sonarqube
+      username:
+        secret: sonarqube-secret
+        key: dbuser
+      password:
+        secret: sonarqube-secret
+        key: dbpass
