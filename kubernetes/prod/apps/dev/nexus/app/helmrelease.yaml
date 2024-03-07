@@ -1,0 +1,113 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/trosvald/CRDs-catalog/main/helm.toolkit.fluxcd.io/helmrelease_v2beta2.json
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: nexus-oss
+spec:
+  chart:
+    spec:
+      chart: nexus3
+      version: 4.40.0
+      sourceRef:
+        kind: HelmRepository
+        name: stevehipwell
+        namespace: flux-system
+  interval: 30m
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+
+  values:
+    image:
+      repository: sonatype/nexus3
+      tag: 3.65.0
+
+    deployment: true
+
+    podSecurityContext:
+      fsGroup: 200
+    securityContext:
+      runAsGroup: 200
+      runAsUser: 200
+
+    livenessProbe:
+      httpGet:
+        path: /service/rest/v1/status
+        port: http
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 10
+      timeoutSeconds: 1
+
+    readinessProbe:
+      httpGet:
+        path: /service/rest/v1/status
+        port: http
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 10
+      timeoutSeconds: 1
+
+    service:
+      type: ClusterIP
+      port: 8081
+
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+
+    ingress:
+      enabled: true
+      # annotations:
+      ingressClassName: internal-nginx
+      hosts:
+        - &hostname repo.monosense.io
+      tls:
+        - hosts:
+            - *hostname
+
+    persistence:
+      enabled: true
+      accessMode: ReadWriteOnce
+      storageClass: ceph-block
+      size: 80Gi
+
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 8Gi
+      requests:
+        cpu: 2000m
+        memory: 4Gi
+
+    chownDataDir: true
+
+    envVars:
+      jvmMinHeapSize: 1024m
+      jvmMaxHeapSize: 1024m
+      jvmAdditionalMemoryOptions: "-XX:MaxDirectMemorySize=2048m"
+      jvmAdditionalOptions: ""
+
+    env: []
+    #   - name: VARIABLE
+    #     value: my-value
+
+    logback:
+      maxHistory: 30
+
+    properties:
+      - nexus.scripts.allowCreation=true
+
+    storeProperties: []
+
+    rootPassword:
+      secret: nexus-secret
+      key: password

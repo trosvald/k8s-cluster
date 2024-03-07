@@ -34,6 +34,7 @@ resources:
   - rook-ceph.yaml
   - spegel.yaml
   - stakater.yaml
+  - stevehipwell.yaml
   - synology-csi.yaml
   - tf-controller.yaml
   - vector.yaml

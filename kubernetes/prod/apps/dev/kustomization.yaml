@@ -8,3 +8,4 @@ resources:
   - ./actions-runner-controller/ks.yaml
   # - ./harbor/ks.yaml
   - ./gitlab/ks.yaml
+  - ./nexus/ks.yaml
