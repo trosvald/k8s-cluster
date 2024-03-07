@@ -89,9 +89,7 @@ spec:
       host: postgres-rw.database.svc.cluster.local
       port: 5432
       database: sonarqube
-      username:
-        secret: sonarqube-secret
-        key: dbuser
+      username: sonarqube
       password:
         secret: sonarqube-secret
         key: dbpass
