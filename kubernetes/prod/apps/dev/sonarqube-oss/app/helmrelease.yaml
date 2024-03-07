@@ -81,7 +81,7 @@ spec:
         memory: 1024Mi
       limits:
         cpu: 1000m
-        memory: 2048Mi
+        memory: 4096Mi
 
     extraInitContainers: []
 
