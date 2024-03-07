@@ -27,7 +27,7 @@ spec:
   values:
     image:
       repository: sonarqube
-      tag: 10.4.1
+      tag: 10.4.1-community
 
     deployment: true
 
