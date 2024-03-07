@@ -9,4 +9,4 @@ resources:
   # - ./harbor/ks.yaml
   - ./gitlab/ks.yaml
   - ./nexus/ks.yaml
-  - ./sonarqube-oss/ks.yaml
+  # - ./sonarqube-oss/ks.yaml
