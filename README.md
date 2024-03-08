@@ -11,7 +11,7 @@
 <div align="center">
 <div>
 
-[![Kubernetes](https://img.shields.io/badge/dynamic/yaml?url=https://raw.githubusercontent.com/trosvald/k8s-cluster/main/infrastructure/talos/talconfig.yaml&query=$.kubernetesVersion&flat-square&logo=kubernetes&logoColor=white&label=k8s)](https://k8s.io/)
+[![Kubernetes](https://img.shields.io/badge/dynamic/yaml?url=https://raw.githubusercontent.com/trosvald/k8s-cluster/main/infrastructure/talos/talconfig.yaml&query=$.kubernetesVersion&flat-square&logo=kubernetes&logoColor=white&label=k8s)](https://k8s.io/)&nbsp;&nbsp;
 [![Talos](https://img.shields.io/badge/dynamic/yaml?url=https://raw.githubusercontent.com/trosvald/k8s-cluster/main/infrastructure/talos/talconfig.yaml&query=$.talosVersion&flat-square&logo=kubernetes&logoColor=white&label=talos)](https://www.talos.dev/)
 
 </div>
