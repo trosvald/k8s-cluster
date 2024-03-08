@@ -4,7 +4,7 @@ version: "3"
 vars:
   DOMAIN: "monosense.io"
   # renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
-  TALOS_VERSION: "1.6.5"
+  TALOS_VERSION: "1.6.6"
   # renovate: datasource=github-releases depName=siderolabs/kubelet
   KUBERNETES_VERSION: "1.29.2"
 
