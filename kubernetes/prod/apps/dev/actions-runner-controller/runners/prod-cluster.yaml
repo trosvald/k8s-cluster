@@ -21,8 +21,8 @@ spec:
 
     githubConfigUrl: https://github.com/monosense25/prod-cluster
 
-    minRunners: 2
-    maxRunners: 6
+    minRunners: 1
+    maxRunners: 3
 
     containerMode:
       type: "dind"
