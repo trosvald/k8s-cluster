@@ -34,9 +34,9 @@ spec:
           reloader.stakater.com/auto: "true"
         pod:
           securityContext:
-            runAsUser: ${APP_UID}
-            runAsGroup: ${APP_GID}
-            fsGroup: ${APP_GID}
+            runAsUser: 5050
+            runAsGroup: 5050
+            fsGroup: 5050
             fsGroupChangePolicy: OnRootMismatch
         containers:
           main:
@@ -98,4 +98,3 @@ spec:
         globalMounts:
           - path: /pgadmin4/config_local.py
             subPath: config_local.py
-        readOnly: true
