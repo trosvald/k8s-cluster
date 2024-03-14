@@ -93,7 +93,7 @@ spec:
         ports:
           http:
             port: *port
-    serviceMonitor:
-      main:
-        serviceName: main
-        enabled: true
+    # serviceMonitor:
+    #   main:
+    #     serviceName: main
+    #     enabled: true
