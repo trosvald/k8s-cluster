@@ -253,7 +253,7 @@ spec:
           datasource:
             - {name: DS_PROMETHEUS, value: Prometheus}
         cnpg-dashboard:
-          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/1.22.1/docs/src/samples/monitoring/grafana-dashboard.json
+          url: https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/1.22.2/docs/src/samples/monitoring/grafana-dashboard.json
           datasource: Prometheus
         blackbox-exporter:
           # renovate: depName="Prometheus Blackbox Exporter"
