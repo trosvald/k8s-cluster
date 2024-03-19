@@ -5,7 +5,7 @@ endpoint: "https://${clusterName}.${clusterDNSSuffix}:6443"
 
 # renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
 talosVersion: v1.6.6
-# renovate: datasource=github-releases depName=siderolabs/kubelet
+# renovate: depName=kubernetes/kubernetes datasource=github-releases extractVersion=^v(?<version>.*)$
 kubernetesVersion: 1.29.1
 
 cniConfig:
