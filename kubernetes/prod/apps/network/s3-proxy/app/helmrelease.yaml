@@ -24,7 +24,7 @@ spec:
           main:
             image:
               repository: public.ecr.aws/nginx/nginx
-              tag: "1.25.4"
+              tag: "1.27.0"
     service:
       main:
         controller: main
