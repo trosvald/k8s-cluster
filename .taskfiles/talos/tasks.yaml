@@ -6,7 +6,7 @@ vars:
   # renovate: depName=ghcr.io/siderolabs/installer datasource=docker extractVersion=^(?<version>.*)$
   TALOS_VERSION: "1.6.7"
   # renovate: depName=ghcr.io/siderolabs/kubelet datasource=docker extractVersion=^v(?<version>.*)$
-  KUBERNETES_VERSION: "1.29.3"
+  KUBERNETES_VERSION: "1.30.2"
 
 tasks:
   generate:
