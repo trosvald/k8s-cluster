@@ -45,7 +45,7 @@ spec:
           main:
             image:
               repository: docker.io/outlinewiki/outline
-              tag: 0.75.2
+              tag: 0.77.1
             env:
               ENABLE_UPDATES: "false"
               PGSSLMODE: disable
