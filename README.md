@@ -115,7 +115,6 @@ graph TD;
 </details>
 
 ---
-
 ## ☁️ Cloud Dependencies
 
 While most of my infrastructure and workloads are self-hosted I do rely upon the cloud for certain key parts of my setup. This saves me from having to worry about three things. (1) Dealing with chicken/egg scenarios, (2) services I critically need whether my cluster is online or not and (3) The "hit by a bus factor" - what happens to critical apps (e.g. Email, Password Manager, Photos) that my family relies on when I no longer around.
@@ -133,19 +132,13 @@ Alternative solutions to the first two of these problems would be to host a Kube
 | [Pushover](https://pushover.net/)               | Kubernetes Alerts and application notifications                   | $5 OTP         |
 |                                                 |                                                                   | Total: ~$8/mo |
 
----
-
-## 🌐 DNS
-
-In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances deployed.Which syncs DNS records to my RedHat IDM/FreeIPA. The other ExternalDNS instance syncs DNS records to Cloudflare only when the ingresses and services have an ingress class name of `external` and contain an ingress annotation `external-dns.alpha.kubernetes.io/target`. All local clients on my network use my RedHat IDM/FreeIPA as the upstream DNS server.
----
 
 ## 🔧 Hardware
 
 <details>
   <summary>Click here to see my server rack</summary>
 
-  <img src="https://raw.githubusercontent.com/onedr0p/home-ops/main/docs/src/assets/rack.png" align="center" width="200px" alt="dns"/>
+  <!--<img src="https://raw.githubusercontent.com/onedr0p/home-ops/main/docs/src/assets/rack.png" align="center" width="200px" alt="dns"/> -->
 </details>
 
 | Device                      | Count | OS Disk Size | Data Disk Size               | Ram  | Operating System | Purpose                 |
