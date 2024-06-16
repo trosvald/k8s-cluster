@@ -1,0 +1,18 @@
+---
+prepare:
+  stage: prepare
+  extends:
+    - .release:prepare
+
+release:
+  stage: release
+  extends:
+    - .release:version
+  needs:
+    - job: prepare
+      artifacts: true
+
+schedule:
+  stage: triage
+  extends:
+    - .schedule:triage

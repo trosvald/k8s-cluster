@@ -1,0 +1,5 @@
+---
+include:
+  - project: "mapanare-labs/ci/templates"
+    ref: "main"
+    file: "workflows/Release.gitlab.ci.yml"

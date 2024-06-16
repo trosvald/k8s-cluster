@@ -1,27 +1,19 @@
-# Trash
 .DS_Store
 Thumbs.db
-# k8s
-kubeconfig
-# vscode-sops
-.decrypted~*.yaml
-.config.env
+.private/
+.venv/
+.task/
+.terraform
+*.tfvars
+.decrypted~*
+*.secret.env
+*.secret.yaml
 *.agekey
 *.pub
 *.key
-github-deploy-key*
-# Terraform
-.terraform
-.terraform.tfstate*
-terraform.tfstate*
-megalinter-reports
-# Helm
-Chart.lock
-*.tgz
-# Tasks
-.task
-# env variables
-.devcontainer/devcontainer.env
-# Brewfile
-Brewfile.lock.json
-patch.yaml
+*.pem
+kubeconfig
+talosconfig
+config.xml
+tofu.plan
+tf.plan

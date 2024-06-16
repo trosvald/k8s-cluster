@@ -1,0 +1,69 @@
+---
+.common_conditions:
+  label_exemptions: &label_exemptions
+    forbidden_labels:
+      - bug
+      - pinned
+      - security
+      - planned
+
+resource_rules:
+  issues:
+    rules:
+      - name: Mark stale issues with no activity.
+        conditions:
+          date:
+            attribute: updated_at
+            condition: older_than
+            interval_type: days
+            interval: 90
+          state: opened
+          <<: *label_exemptions
+        actions:
+          labels:
+            - stale
+          comment: |
+            Hi,
+
+            This issue has been marked 'stale' due to lack of recent activity. If there is no further activity, the issue will be closed in another 30 days. Thank you for your contribution!
+
+      - name: Close issues with no activity
+        conditions:
+          state: opened
+          labels:
+            - stale
+          date:
+            attribute: created_at
+            condition: older_than
+            interval_type: days
+            interval: 120
+        actions:
+          status: close
+          labels:
+            - auto closed
+          comment: |
+            Hi,
+
+            This issue has been closed due to inactivity. If you feel this is in error, please reopen the issue or file a new issue with the relevant details.
+
+  merge_requests:
+    rules:
+      - name: Close Merge Requests with no activity.
+        conditions:
+          date:
+            attribute: updated_at
+            condition: older_than
+            interval_type: days
+            interval: 90
+          state: opened
+          <<: *label_exemptions
+        actions:
+          labels:
+            - auto closed
+          #mention:
+          #  - rymai
+          comment: |
+            Hi,
+
+            This merge request has been closed due to inactivity. If you feel this is in error, please reopen the merge request or file a new MR with the relevant details.
+

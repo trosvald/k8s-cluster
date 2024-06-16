@@ -1,0 +1,9 @@
+---
+.schedule:triage:
+  image: ruby:3.3
+  script:
+    - gem install gitlab-triage
+    - gitlab-triage --token $API_TOKEN --source projects --source-id $CI_PROJECT_PATH --policies-file .gitlab/workflows/stale.yml
+  only:
+    - schedules
+
