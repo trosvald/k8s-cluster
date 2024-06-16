@@ -111,7 +111,7 @@ graph TD;
 <details>
   <summary>Click here to see my high-level network diagram</summary>
 
-  <img src="https://raw.githubusercontent.com/onedr0p/home-ops/main/docs/src/assets/network-topology.png" align="center" width="600px" alt="dns"/>
+  <!--<img src="https://raw.githubusercontent.com/onedr0p/home-ops/main/docs/src/assets/network-topology.png" align="center" width="600px" alt="dns"/>-->
 </details>
 
 ---
@@ -137,8 +137,7 @@ Alternative solutions to the first two of these problems would be to host a Kube
 
 ## 🌐 DNS
 
-In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances deployed. One is deployed with the [ExternalDNS webhook provider for UniFi](https://github.com/kashalls/external-dns-unifi-webhook) which syncs DNS records to my UniFi router. The other ExternalDNS instance syncs DNS records to Cloudflare only when the ingresses and services have an ingress class name of `external` and contain an ingress annotation `external-dns.alpha.kubernetes.io/target`. All local clients on my network use my UniFi router as the upstream DNS server.
-
+In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/external-dns) instances deployed.Which syncs DNS records to my RedHat IDM/FreeIPA. The other ExternalDNS instance syncs DNS records to Cloudflare only when the ingresses and services have an ingress class name of `external` and contain an ingress annotation `external-dns.alpha.kubernetes.io/target`. All local clients on my network use my RedHat IDM/FreeIPA as the upstream DNS server.
 ---
 
 ## 🔧 Hardware
@@ -152,14 +151,14 @@ In my cluster there are two [ExternalDNS](https://github.com/kubernetes-sigs/ext
 | Device                      | Count | OS Disk Size | Data Disk Size               | Ram  | Operating System | Purpose                 |
 |-----------------------------|-------|--------------|------------------------------|------|------------------|-------------------------|
 | EliteDesk 400 G2            | 1     | 500GB SSD    |                              | 16GB | HASSIO           | Home Assistant          |
-| ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | Rocky Linux 8    | GitLab Server           |
-| ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | Rocky Linux 8    | GitLab Runner           |
-| ThinkCentre M910q           | 1     | 500GB SSD    |                              | 32GB | FedoraIOT        | Home Service (Primary)  |
-| ThinkCentre M920x           | 1     | 800GB SSD    |                              | 16GB | FedoraIOT        | Home Service (Secondary)|
+| ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | RHEL8            | RedHat IDM (master)     |
+| ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | RHEL8            | RedHat IDM (replica)    |
+| ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | RHEL8            | Test Node               |
+| ThinkCentre M920x           | 1     | 512GB NvME   |                              | 16GB | FedoraIOT        | Home Service            |
 | ThinkCentre M720q           | 3     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Controllers  |
 | ThinkCentre M720q           | 1     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
 | ThinkCentre M920x           | 2     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
-| PowerEdge R720xd            | 1     | 256GB SSD    | 4x12TB ZFS (mirrored vdevs)  | 256GB| Ubuntu 22.04     | NFS + Bacula            |
+| PowerEdge R720xd            | 1     | 256GB SSD    | 4x12TB ZFS (mirrored vdevs)  | 256GB| RHEL8 (ZFS)      | NFS + Bacula            |
 |                             |       | -            | 5x800GB DC3610 SSD (minio)   | -    | -                | S3                      |
 |                             |       | -            | 3x4TB (raidz1 vdevs)         | -    | -                | Bacula Volume           |
 | IBM TS3200 2xLTO7 Drive     | 1     | -            | 23xLTO-6 Tape (Incr,Diff)    | -    |                  | Tape Library            |
