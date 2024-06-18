@@ -7,9 +7,9 @@ metadata:
 spec:
   staticConfigs:
     - targets:
-        - p-rh8-str.monosense.dev:9100
-        - p-rh8-inf1.monosense.dev:9100
-        - p-rh8-inf2.monosense.dev:9100
+        - p-rh8-zfs.monosense.dev:9100
+        # - p-rh8-inf1.monosense.dev:9100
+        # - p-rh8-inf2.monosense.dev:9100
         - p-fdi-inf-01.monosense.dev:9100
   metricsPath: /metrics
   relabelings:

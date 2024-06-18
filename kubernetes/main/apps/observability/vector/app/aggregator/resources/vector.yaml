@@ -14,6 +14,24 @@ sources:
     version: "2"
     address: 0.0.0.0:6000
 
+  talos_kernel_logs:
+    address: 0.0.0.0:6001
+    type: socket
+    mode: udp
+    max_length: 102400
+    decoding:
+      codec: json
+    host_key: __host
+
+  talos_service_logs:
+    address: 0.0.0.0:6002
+    type: socket
+    mode: udp
+    max_length: 102400
+    decoding:
+      codec: json
+    host_key: __host
+
   kubernetes_source:
     type: vector
     version: "2"
@@ -24,10 +42,35 @@ sources:
 #
 
 transforms:
+  talos_kernel_transform:
+    type: remap
+    inputs: ["talos_kernel_logs"]
+    source: |-
+      r1 = replace!(.__host, "172.16.11.3", "p-tlx-k8s-m0")
+      r2 = replace(r1, "172.16.11.4", "p-tlx-k8s-m1")
+      r3 = replace(r2, "172.16.11.5", "p-tlx-k8s-m2")
+      r4 = replace(r3, "172.16.11.6", "p-tlx-k8s-w0")
+      r5 = replace(r4, "172.16.11.7", "p-tlx-k8s-w1")
+      r6 = replace(r5, "172.16.11.8", "p-tlx-k8s-w2")
+      .node = r6
+
+  talos_service_transform:
+    type: remap
+    inputs: ["talos_service_logs"]
+    source: |-
+      r1 = replace!(.__host, "172.16.11.3", "p-tlx-k8s-m0")
+      r2 = replace(r1, "172.16.11.4", "p-tlx-k8s-m1")
+      r3 = replace(r2, "172.16.11.5", "p-tlx-k8s-m2")
+      r4 = replace(r3, "172.16.11.6", "p-tlx-k8s-w0")
+      r5 = replace(r4, "172.16.11.7", "p-tlx-k8s-w1")
+      r6 = replace(r5, "172.16.11.8", "p-tlx-k8s-w2")
+      r7 = replace(r6, r'172.16.11.*', "talos")
+      .node = r7
+
   kubernetes_remap:
     type: remap
     inputs: ["kubernetes_source"]
-    source: |
+    source: |-
       # Standardize 'app' index
       .custom_app_name = .pod_labels."app.kubernetes.io/name" || .pod_labels.app || .pod_labels."k8s-app" || "unknown"
       # Drop pod_labels
@@ -48,6 +91,38 @@ sinks:
     remove_timestamp: true
     labels:
       hostname: '{{ host }}'
+
+  talos_kernel:
+    type: loki
+    inputs: ["talos_kernel_transform"]
+    endpoint: http://loki-gateway.observability.svc.cluster.local
+    encoding:
+      codec: json
+      except_fields:
+        - __host
+    batch:
+      max_bytes: 524288
+    out_of_order_action: rewrite_timestamp
+    labels:
+      node: "{{ node }}"
+      facility: "{{ facility }}"
+      namespace: "talos:kernel"
+
+  talos_service:
+    type: loki
+    inputs: ["talos_service_transform"]
+    endpoint: http://loki-gateway.observability.svc.cluster.local
+    encoding:
+      codec: json
+      except_fields:
+        - __host
+    batch:
+      max_bytes: 524288
+    out_of_order_action: rewrite_timestamp
+    labels:
+      node: "{{ node }}"
+      talos_service: '{{ "talos:service "}}'
+      namespace: "talos:service"
 
   kubernetes:
     inputs: ["kubernetes_remap"]
