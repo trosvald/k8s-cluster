@@ -15,7 +15,7 @@
             "console=ttyS0",
             "printk.devkmsg=on",
             "talos.platform=metal",
-            "talos.config=http://c-pdm-matchbox.monosense.dev/assets/p-tlx-k8s-m2.yaml"
+            "talos.config=http://c-pdm-pxe.monosense.dev/assets/p-tlx-k8s-m2.yaml"
         ]
     }
 }

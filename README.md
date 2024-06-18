@@ -148,9 +148,9 @@ Alternative solutions to the first two of these problems would be to host a Kube
 | ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | RHEL8            | RedHat IDM (replica)    |
 | ThinkCentre M910q           | 1     | 800GB SSD    |                              | 32GB | RHEL8            | Test Node               |
 | ThinkCentre M920x           | 1     | 512GB NvME   |                              | 16GB | FedoraIOT        | Home Service            |
-| ThinkCentre M720q           | 3     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Controllers  |
-| ThinkCentre M720q           | 1     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
-| ThinkCentre M920x           | 2     | 1TB SSD      | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
+| ThinkCentre M720q           | 3     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Controllers  |
+| ThinkCentre M720q           | 1     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
+| ThinkCentre M920x           | 2     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
 | PowerEdge R720xd            | 1     | 256GB SSD    | 4x12TB ZFS (mirrored vdevs)  | 256GB| RHEL8 (ZFS)      | NFS + Bacula            |
 |                             |       | -            | 5x800GB DC3610 SSD (minio)   | -    | -                | S3                      |
 |                             |       | -            | 3x4TB (raidz1 vdevs)         | -    | -                | Bacula Volume           |
