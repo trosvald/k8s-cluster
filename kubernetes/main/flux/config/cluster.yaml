@@ -7,7 +7,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: ssh://git@github.com/trosvald/prod-ops
+  url: ssh://git@github.com/trosvald/k8s-cluster
   ref:
     branch: main
   secretRef:
