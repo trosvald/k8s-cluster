@@ -23,8 +23,9 @@ additionalApiServerCertSans: &san
 additionalMachineCertSans: *san
 
 nodes:
-  # ToR1 Port6, ToR2 Port6, 256GB Pioneer
+  # ToR1 Port6, ToR2 Port6, 500GB Samsung EVO 860
   # Rack Position 7th From right
+  # MAC Address for onboard NIC => e8:6a:64:96:0a:35
   - hostname: p-tlx-k8s-m0.${clusterDNSSuffix}
     ipAddress: 172.16.11.3
     installDisk: /dev/sda
@@ -37,15 +38,16 @@ nodes:
           mode: active-backup
           miimon: 100
           deviceSelectors:
-            - hardwareAddr: e4:1d:7a:67:a5:d4
-            - hardwareAddr: e4:1d:7a:67:a5:d5
+            - hardwareAddr: e4:1d:85:75:d8:73
+            - hardwareAddr: e4:1d:85:75:d8:74
         dhcp: true
         vip:
           ip: ${clusterEndpointIP}
         mtu: 9000
 
-  # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO860
+  # ToR1 Port5, ToR2 Port5, 500GB Samsung EVO 860
   # Rack Position 6th From right
+  # MAC Address for onboard NIC => 98:fa:9b:19:be:d9
   - hostname: p-tlx-k8s-m1.${clusterDNSSuffix}
     ipAddress: 172.16.11.4
     installDisk: /dev/sda
@@ -69,6 +71,7 @@ nodes:
   # ToR1 Port4, ToR2 Port4, 512GB Intel
   # Rack Position 5th From right
   # m920x
+  # MAC Address for onboard NIC => 98:fa:9b:36:bf:33
   - hostname: p-tlx-k8s-m2.${clusterDNSSuffix}
     ipAddress: 172.16.11.5
     installDisk: /dev/sda
@@ -89,9 +92,10 @@ nodes:
         mtu: 9000
     # nodeLabels: *masterLabels
 
-# ToR1 Port3, ToR2 Port3, 512GB Intel
-# Rack Position 4th From right
-# m920x
+  # ToR1 Port3, ToR2 Port3, 512GB Intel
+  # Rack Position 4th From right
+  # m920x
+  # MAC Address for onboard NIC => 98:fa:9b:36:b1:0c
   - hostname: p-tlx-k8s-w0.${clusterDNSSuffix}
     ipAddress: 172.16.11.6
     installDisk: /dev/sda
@@ -109,8 +113,9 @@ nodes:
         dhcp: true
         mtu: 9000
 
-# ToR1 Port2, ToR2 Port2, 256GB Samsung
-# Rack Position 3rd From right
+  # ToR1 Port2, ToR2 Port2, 500GB Samsung EVO 860
+  # Rack Position 3rd From right
+  # MAC Address for onboard NIC => e8:6a:64:9a:66:97
   - hostname: p-tlx-k8s-w1.${clusterDNSSuffix}
     ipAddress: 172.16.11.7
     installDisk: /dev/sda
@@ -128,8 +133,9 @@ nodes:
         dhcp: true
         mtu: 9000
 
-  # ToR1 Port1, ToR2 Port1, 256GB Pioneer
+  # ToR1 Port1, ToR2 Port1, 500GB Samsung EVO 860
   # Rack Position 2nd From right
+  # MAC Address for onboard NIC => e8:6a:64:96:0e:64
   - hostname: p-tlx-k8s-w2.${clusterDNSSuffix}
     ipAddress: 172.16.11.8
     installDisk: /dev/sda
@@ -142,8 +148,8 @@ nodes:
           mode: active-backup
           miimon: 100
           deviceSelectors:
-            - hardwareAddr: e4:1d:85:75:d8:73
-            - hardwareAddr: e4:1d:85:75:d8:74
+            - hardwareAddr: 8c:dc:d4:a8:42:dc
+            - hardwareAddr: 8c:dc:d4:a8:42:dd
         dhcp: true
         mtu: 9000
 
