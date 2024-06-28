@@ -162,6 +162,7 @@ controlPlane:
       extraKernelArgs:
         - net.ifnames=0
         - mitigations=off
+        - module_blacklist=e1000e
         - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
       systemExtensions:
         officialExtensions:
@@ -364,6 +365,7 @@ worker:
       extraKernelArgs:
         - net.ifnames=0
         - mitigations=off
+        - module_blacklist=e1000e
         - talos.logging.kernel=udp://vector.${clusterDNSSuffix}:${talosKernelLogPort}/
       systemExtensions:
         officialExtensions:
