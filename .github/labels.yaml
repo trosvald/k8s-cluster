@@ -13,7 +13,7 @@
 - name: area/terraform
   color: "0e8a16"
 # Clusters
-- name: cluster/main
+- name: cluster/k8s
   color: "ffc300"
 - name: cluster/storage
   color: "ffc300"

@@ -23,9 +23,9 @@ area/terraform:
   - changed-files:
       - any-glob-to-any-file: "terraform/**/*"
 # Clusters
-cluster/main:
+cluster/k8s:
   - changed-files:
-      - any-glob-to-any-file: "kubernetes/main/**/*"
+      - any-glob-to-any-file: "kubernetes/k8s/**/*"
 cluster/storage:
   - changed-files:
       - any-glob-to-any-file: "kubernetes/storage/**/*"

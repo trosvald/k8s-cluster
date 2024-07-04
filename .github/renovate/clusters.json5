@@ -3,14 +3,14 @@
     "packageRules": [
         {
             "description": [
-                "Separate PRs for main cluster"
+                "Separate PRs for k8s cluster"
             ],
             "matchFileNames": [
-                "**/kubernetes/main/**",
-                "**/ansible/main/**",
-                "**/terraform/main/**"
+                "**/kubernetes/k8s/**",
+                "**/ansible/k8s/**",
+                "**/terraform/k8s/**"
             ],
-            "additionalBranchPrefix": "main-"
+            "additionalBranchPrefix": "k8s-"
         },
         {
             "description": [

@@ -4,9 +4,9 @@ version: "3"
 
 tasks:
 
-  main:
+  prod:
     vars: &vars
-      cluster: main
+      cluster: prod
       cephnodes: p-tlx-k8s-m0 p-tlx-k8s-m1 p-tlx-k8s-m2 p-tlx-k8s-w0 p-tlx-k8s-w1 p-tlx-k8s-w2
       cephdisk: /dev/nvme0n1
     cmds:
