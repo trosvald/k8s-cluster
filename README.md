@@ -138,7 +138,7 @@ Alternative solutions to the first two of these problems would be to host a Kube
 <details>
   <summary>Click here to see my server rack</summary>
 
-  <!--<img src="https://raw.githubusercontent.com/onedr0p/home-ops/main/docs/src/assets/rack.png" align="center" width="200px" alt="dns"/> -->
+  <!--<img src="https://raw.githubusercontent.com/trosvald/k8s-cluster/main/docs/src/assets/rack.png" align="center" width="200px" alt="rack"/> -->
 </details>
 
 | Device                      | Count | OS Disk Size | Data Disk Size               | Ram  | Operating System | Purpose                 |
@@ -151,19 +151,17 @@ Alternative solutions to the first two of these problems would be to host a Kube
 | ThinkCentre M720q           | 3     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Controllers  |
 | ThinkCentre M720q           | 1     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
 | ThinkCentre M920x           | 2     | 500GB SSD    | 1TB NVMe (rook-ceph)         | 64GB | Talos            | Kubernetes Workers      |
-| PowerEdge R720xd            | 1     | 256GB SSD    | 4x12TB ZFS (mirrored vdevs)  | 256GB| RHEL8 (ZFS)      | NFS + Bacula            |
-|                             |       | -            | 5x800GB DC3610 SSD (minio)   | -    | -                | S3                      |
-|                             |       | -            | 3x4TB (raidz1 vdevs)         | -    | -                | Bacula Volume           |
+| PowerEdge R720xd            | 1     | 256GB SSD    | 4x12TB (RAID10)              | 256GB| -                |                         |
+|                             |       | -            | 8x4TB (RAID6)                | -    | -                |                         |
 | IBM TS3200 2xLTO7 Drive     | 1     | -            | 23xLTO-6 Tape (Incr,Diff)    | -    |                  | Tape Library            |
 |                             |       | -            | 23xLTO-7 Tape (Full)         | -    | -                |                         |
-| Synology DS1817+            | 1     | -            | 8x4TB (RAID5)                | 16GB |                  | Archive                 |
 | Juniper SRX320              | 1     | -            |                              | -    | -                | Router + FW             |
 | TP-Link TL-SG3428X          | 1     | -            | -                            | -    | -                | Core Switch             |
 | TP-Link TL-SX3008F          | 2     | -            | -                            | -    | -                | 10G ToR Switch          |
 | TP-Link TL-SG2210MP         | 1     | -            | -                            | -    | -                | PoE Switch              |
 | APC SUA 1500                | 1     | -            | -                            | -    | -                | UPS1 2x65Ah             |
-| APC SmartUPS 2000IC         | 1     | -            | -                            | -    | -                | UPS2                    |
-| APC SmartUPS 1500IC         | 1     | -            | -                            | -    | -                | UPS3                    |
+| APC SURT 2000XLi            | 1     | -            | -                            | -    | -                | UPS2 2xBP               |
+| APC SmartUPS 2000IC         | 1     | -            | -                            | -    | -                | UPS3                    |
 
 ---
 ## 🤝 Gratitude and Thanks
