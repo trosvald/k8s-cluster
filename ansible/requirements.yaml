@@ -9,7 +9,7 @@ collections:
   - name: kubernetes.core
     version: 5.0.0
   - name: junipernetworks.junos
-    version: 9.0.0
+    version: 9.1.0
   - name: juniper.device
     version: 1.0.5
   - name: community.sops
